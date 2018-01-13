@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_layout.xsd">
+    <update handle="empty"/>
+    <referenceContainer name="page.wrapper">
+        <container name="header.container" as="header_container" label="Page Header Container"  htmlTag="header" htmlClass="page-header em-header-01" before="main.content"/>
+        <container name="page.top" as="page_top" label="After Page Header" after="header.container"/>
+        <container name="footer-container" as="footer" before="before.body.end" label="Page Footer Container" htmlTag="footer" htmlClass="page-footer em-footer-style01" />
+    </referenceContainer>
+	<referenceContainer name="content.top">
+		<container name="main.content.top.inner.01" as="main_top_01" label="Main Content Top 01" before="main.content.top.inner.02" htmlTag="div" htmlClass="row main-content-top-01" />
+		<container name="main.content.top.inner.02" as="main_top_02" after="-" htmlTag="div" htmlClass="row main-content-top-02" >
+			<container name="main.content.top.right" as="main_top_right" label="Main Content Top - Right" htmlTag="div" htmlClass="em-main-top-right col-sm-18 col-sm-push-6">
+				<container name="main.content.top.right.slideshow" as="main_top_right_slideshow" label="Main Content Top - Right - Slideshow" htmlTag="div" htmlClass="em-main-top-right-slideshow" before="-" />
+			</container>
+			<container name="main.content.top.left" as="main_top_left" label="Main Content Top - Left" htmlTag="div" htmlClass="em-main-top-left col-sm-6 col-sm-pull-18">
+				<container name="main.top.left.scrollcontainer" as="main_top_left_scrollcontainer" htmlTag="div" htmlClass="scroll-wrapper" after="-">
+					<container name="main.top.left.scrollbar" as="main_top_left_scrollbar" label="Main Content Top - Left - Scrollbar" htmlTag="div" htmlClass="em-scrollbar" after="-" />
+				</container>
+			</container>
+		</container>
+	</referenceContainer>
+	<referenceContainer name="main.top.left.scrollcontainer"/>
+</layout>

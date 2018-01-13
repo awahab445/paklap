@@ -1,0 +1,93 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php 
+//$_settingHelper = $this->helper('Emthemes\ThemeSettings\Helper\Data'); 
+$uniqId = uniqid('product-detailed-');
+?>
+<?php if ($detailedInfoGroup = $block->getGroupChildNames('detailed_info', 'getChildHtml')):?>
+    <div class="product info detailed" id="<?php echo $uniqId ?>">
+        <?php $layout = $block->getLayout(); ?>
+        <div class="product data items" 
+        <?php //if($_settingHelper->getConfig('product_detail/detail_element/use_tabs')==1): ?>
+        data-mage-init='{"tabs":{"openedState":"active"}}'
+        <?php //endif; ?>
+        >
+            <?php foreach ($detailedInfoGroup as $name):?>
+                <?php
+                    $html = $layout->renderElement($name);
+                    if (!trim($html)) {
+                        continue;
+                    }
+                    $alias = $layout->getElementAlias($name);
+                    $label = $block->getChildData($alias, 'title');
+                ?>
+                <div class="data item title"
+                     aria-labeledby="tab-label-<?php /* @escapeNotVerified */ echo $alias;?>-title"
+                     data-role="collapsible" id="tab-label-<?php /* @escapeNotVerified */ echo $alias;?>">
+                    <a class="data switch"
+                       tabindex="-1"
+                       data-toggle="switch"
+                       href="#<?php /* @escapeNotVerified */ echo $alias; ?>"
+                       id="tab-label-<?php /* @escapeNotVerified */ echo $alias;?>-title">
+                        <?php /* @escapeNotVerified */ echo $label; ?>
+                    </a>
+                </div>
+                <div class="data item content" id="<?php /* @escapeNotVerified */ echo $alias; ?>" data-role="content">
+                    <?php /* @escapeNotVerified */ echo $html; ?>
+                </div>
+            <?php endforeach;?>
+            <?php if($block->getChildHtml("product_view_block_custom_tab_1")): ?>
+             <div class="data item title"
+                     aria-labeledby="tab-label-custom-tab-1-title"
+                     data-role="collapsible" id="tab-label-custom-tab-1">
+                    <a class="data switch"
+                       tabindex="-1"
+                       data-toggle="switch"
+                       href="#custom-tab-1"
+                       id="tab-label-custom-tab-1-title">
+                        <?php /* @escapeNotVerified */ echo __('Custom Tab 1'); ?>
+                    </a>
+          	</div>
+             <div class="data item content" id="custom-tab-1" data-role="content">
+                    <?php /* @escapeNotVerified */ echo $block->getChildHtml("product_view_block_custom_tab_1") ?>
+             </div>
+		<?php endif; ?>
+            <?php if($block->getChildHtml("product_view_block_custom_tab_2")): ?>
+             <div class="data item title"
+                     aria-labeledby="tab-label-custom-tab-2-title"
+                     data-role="collapsible" id="tab-label-custom-tab-2">
+                    <a class="data switch"
+                       tabindex="-1"
+                       data-toggle="switch"
+                       href="#custom-tab-2"
+                       id="tab-label-custom-tab-2-title">
+                        <?php /* @escapeNotVerified */ echo __('Custom Tab 2'); ?>
+                    </a>
+          	</div>
+             <div class="data item content" id="custom-tab-2" data-role="content">
+                    <?php /* @escapeNotVerified */ echo $block->getChildHtml("product_view_block_custom_tab_2") ?>
+             </div>
+		<?php endif; ?>
+        </div>
+    </div>
+<?php endif; ?>
+<script type="text/javascript">
+require(['jquery'],function($){
+	var $parent = $('#<?php echo $uniqId ?>').first();
+	$('a.data.switch',$parent).each(function(){
+		var $tabTitle = $(this), title = $tabTitle.html(), titleArray = title.trim().split(' ');
+		titleArray[0] = '<span class="first-word">'+titleArray[0]+'</span>';
+		title = titleArray.join(' ');
+		$tabTitle.html(title);
+	});
+});
+</script>
+
+
