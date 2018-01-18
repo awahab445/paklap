@@ -14,6 +14,9 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
     <?php
     $viewMode = 'grid';
     $image = 'home_bestseller_grid';
+=======
+    $image = 'home_bestseller_grid';
+>>>>>>> 806406e7a1f653f3459d3b050a10a2bb77f82492
     $image_hover = 'home_bestseller_grid_hover';
     $showDescription = false;
     $title = $block->getTitle() ? __($block->getTitle()) : '';
@@ -40,7 +43,7 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
 			$wLItemArray[] = $wLItem->getProductId();	
 		}
 	}
-	
+
 	$labelHelper = $this->helper('Codazon\ProductLabel\Helper\Data');
     ?>
     <div class="block widget block-products-list isotope-wrap <?php /* @escapeNotVerified */ echo $viewMode; ?>">
@@ -67,7 +70,7 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
 								break;
 						}																			
 															
-											
+
 						?>
 				        <li class="item iso-item product product-item <?php echo $itemClass; $iterator++; ?>">
 						<div class="product-item-info">
