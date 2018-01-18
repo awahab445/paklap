@@ -1,0 +1,47 @@
+<?php $settingHelper = $this->helper('Emthemes\ThemeSettings\Helper\Data'); ?>
+
+<?php if($settingHelper->getConfig('contact_page/custom_block/map_enable') == 1): ?>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.17&signed_in=true"></script>
+    <?php
+//        $_generalAddress = nl2br(Mage::getStoreConfig('general/store_information/address'));
+        $_generalStoreName = $settingHelper->getStoreName();        
+        $_configAddress =  $settingHelper->getConfig('contact_page/custom_block/map_address');        
+    
+        $_address = $_configAddress;
+    
+        $_address = str_replace(' ','+',$_address); 
+        $_jsonCode = file_get_contents('http://maps.google.com/maps/api/geocode/json?address='.$_address.'&sensor=false');        
+        $_jsonDecode = json_decode($_jsonCode);        
+        $_lat = $_jsonDecode->results[0]->geometry->location->lat;        
+        $_lng = $_jsonDecode->results[0]->geometry->location->lng;        
+        $_imageUrl = "http://maps.google.com/intl/en_us/mapfiles/ms/micons/green-dot.png";        
+    ?>
+    
+    <script type="text/javascript">
+        function initialize() {
+	    	var myLatlng = new google.maps.LatLng(<?php echo $_lat?>, <?php echo $_lng ?>);
+	    	var mapOptions = {
+	    		zoom: 10,
+	    		center: myLatlng
+	    	};
+	    	var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+		  var contentString = "<?php echo $settingHelper->getConfig('contact_page/custom_block/map_info') ?>";
+	    	var infowindow = new google.maps.InfoWindow({
+	    		content: contentString
+	    	});
+		var image = '<?php echo $_imageUrl ?>';
+	    	var marker = new google.maps.Marker({
+	    		position: myLatlng,
+	    		map: map,
+		      icon: image,
+	    		title: '<?php echo $_generalStoreName ?>',
+	    		animation: google.maps.Animation.DROP,
+	    	});
+	    	google.maps.event.addListener(marker, 'click', function() {
+	    		infowindow.open(map, marker);
+	    	});
+	    }
+    	google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+    <div id="map-canvas" style="width: <?php echo $settingHelper->getConfig('contact_page/custom_block/map_width') ?>px; height: <?php echo $settingHelper->getConfig('contact_page/custom_block/map_height') ?>px"></div>
+<?php endif;?>

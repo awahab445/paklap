@@ -1,0 +1,16 @@
+& when (@media-common = true){
+	.productlabels_icons { position:absolute; top:10px; right:0px; z-index:2 !important}
+	.productlabels_icons .label > p{display:block; text-align:center}
+	.productlabels_icons .label {
+		display:block; padding:3px 5px 3px 5px; position:relative;text-transform:uppercase; text-align:center; ;margin-bottom:3px;
+		.lib-allstyle(@em-label__text-color; transparent; @em-label-new__background-color; @em-h6__font); font-size:10px; font-weight:400;
+	}
+
+	.productlabels_icons .label.special{ background-color: @em-label-special__background-color;}
+	.productlabels_icons .label.hot{background-color: @em-label-hot__background-color;}
+	.productlabels_icons .label > p{margin:0}
+	.em_sidebar .products-list .productlabels_icons .label{ width:39px; height:39px; padding-top:6px; font-size:70%}
+	.product.media{
+		position:relative;
+	}
+}

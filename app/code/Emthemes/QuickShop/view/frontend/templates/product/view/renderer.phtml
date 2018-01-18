@@ -1,0 +1,10 @@
+<div class="swatch-opt"></div>
+<script>
+    require(["jquery", "jquery/ui","Emthemes_QuickShop/js/swatch"], function ($) {
+        $('.swatch-opt').SwatchRenderer({
+            jsonConfig: <?php echo $swatchOptions = $block->getJsonConfig(); ?>,
+            jsonSwatchConfig: <?php echo $swatchOptions = $block->getJsonSwatchConfig(); ?>,
+            mediaCallback: '<?php echo $block->getMediaCallback() ?>'
+        });
+    });
+</script>

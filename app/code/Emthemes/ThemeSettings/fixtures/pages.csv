@@ -1,0 +1,4 @@
+title,page_layout,meta_keywords,meta_description,identifier,content_heading,content,is_active,sort_order,layout_update_xml,custom_theme,custom_root_template,custom_layout_update_xml,custom_theme_from,custom_theme_to
+"EM0156 HelloMarket - Homepage - One Column",1column,,,hellomarket-home,,,1,0,,,,,,
+"EM0156 HelloMarket - Homepage - Two Columns Left",1column,,,hellomarket-home-two-left,,&nbsp;,1,0,,,,,,
+"EM0156 HelloMarket - Homepage - Two Columns Right",1column,,,hellomarket-home-two-right,,&nbsp;,1,0,,,,,,
