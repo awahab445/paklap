@@ -1,0 +1,28 @@
+<p>Please wait while your are being redirected to JazzCash...</p>
+<form name='jsform' method='post' action='<?php echo $block->get_ActionUrl(); ?>' />
+	<input type='hidden' name='pp_Version' value='<?php echo $block->get_Version(); ?>' />
+	<input type='hidden' name='pp_TxnType' value='' />
+	<input type='hidden' name='pp_Language' value='<?php echo $block->get_Language(); ?>' />
+	<input type='hidden' name='pp_MerchantID' value='<?php echo $block->get_MerchantID(); ?>' />
+	<input type='hidden' name='pp_SubMerchantID' value='<?php echo $block->get_SubMerchantID(); ?>' />
+	<input type='hidden' name='pp_Password' value='<?php echo $block->get_Password(); ?>' />
+	<input type='hidden' name='pp_BankID' value='' />
+	<input type='hidden' name='pp_ProductID' value='' />
+	<input type='hidden' name='pp_TxnRefNo' value='<?php echo $block->get_TxnRefNo(); ?>' />
+	<input type='hidden' name='pp_Amount' value='<?php echo $block->get_Amount(); ?>' />
+	<input type='hidden' name='pp_TxnCurrency' value='<?php echo $block->get_TxnCurrency(); ?>' />
+	<input type='hidden' name='pp_TxnDateTime' value='<?php echo $block->get_TxnDateTime(); ?>' />
+	<input type='hidden' name='pp_BillReference' value='<?php echo $block->get_BillReference(); ?>' />
+	<input type='hidden' name='pp_Description' value='<?php echo $block->get_Description(); ?>' />
+	<input type='hidden' name='pp_TxnExpiryDateTime' value='<?php echo $block->get_TxnExpiryDateTime(); ?>' />
+	<input type='hidden' name='pp_ReturnURL' value='<?php echo $block->get_ReturnURL(); ?>' />
+	<input type='hidden' name='pp_SecureHash' value='<?php echo $block->get_SecureHash(); ?>' />
+	<input type='hidden' name='ppmpf_1' value='<?php echo $block->get_ppmpf1(); ?>' />
+	<input type='hidden' name='ppmpf_2' value='<?php echo $block->get_ppmpf2(); ?>' />
+	<input type='hidden' name='ppmpf_3' value='<?php echo $block->get_ppmpf3(); ?>' />
+	<input type='hidden' name='ppmpf_4' value='<?php echo $block->get_ppmpf4(); ?>' />
+	<input type='hidden' name='ppmpf_5' value='<?php echo $block->get_ppmpf5(); ?>' />
+</form>
+<script type='text/javascript'>
+	document.jsform.submit();
+</script>
