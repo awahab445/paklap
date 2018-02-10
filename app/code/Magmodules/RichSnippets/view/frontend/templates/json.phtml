@@ -1,0 +1,11 @@
+<?php
+/**
+ * Copyright © 2017 Magmodules.eu. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+if ($snippets = $block->getSnippets()) {
+    foreach ($snippets as $snippet) {
+        echo PHP_EOL . '<script type="application/ld+json">[' . json_encode($snippet) . ']</script>';
+    }
+}
