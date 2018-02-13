@@ -93,7 +93,7 @@ class Index extends \Magento\Framework\App\Action\Action
         $_TxnRefNumber  = "T" . $DateTime->format('YmdHis');
         $_TxnDateTime   = $DateTime->format('YmdHis');
         $ExpiryDateTime = $DateTime;
-        $ExpiryDateTime->modify('+' . $_ExpiryHours . ' hours');
+        $ExpiryDateTime->modify("+" . $_ExpiryHours . ' hours');
         $_ExpiryDateTime = $ExpiryDateTime->format('YmdHis');
         
         $ppmpf1 = '1';
