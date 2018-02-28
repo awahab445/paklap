@@ -130,8 +130,8 @@ class NewOrder implements ObserverInterface
 
                 $order = $order = $observer->getEvent()->getOrder();
                 $orderData = [
-                    'orderId' => $order->getIncrementId(),
-                    'lastname' => $order->getCustomerLastname()
+                    'order_id' => $order->getIncrementId(),
+                    'last_name' => $order->getBillingAddress()->getLastname()
                 ];
 
                 //Getting Telephone Number

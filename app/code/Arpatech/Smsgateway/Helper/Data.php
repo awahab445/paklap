@@ -260,10 +260,17 @@ class Data extends AbstractHelper
     {
         $keywords   = [
         '{order_id}',
-        '{lastname}',
+        '{last_name}',
         '{tracking_number}'
         ];
-        $message         = str_replace($keywords, $data, $message);
+
+
+        $message = str_replace('{order_id}', $data['order_id'], $message);
+        $message = str_replace('{last_name}', $data['last_name'], $message);
+
+//        foreach($keywords as $keyword) {
+//            $message = str_replace($keyword, $data[$keyword], $message);
+//        }
         return $message;
     }
 
