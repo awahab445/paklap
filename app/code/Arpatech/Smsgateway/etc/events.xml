@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * SMS Module events observer file  
+ * Company Arpatech 
+ * Developer Abdul
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="sales_order_place_after">
+        <observer name="arpatech_smsgateway_observer_new_order" instance="Arpatech\Smsgateway\Observer\NewOrder"/>
+    </event>
+    <event name="sales_order_order_tracking_sheet_upload">
+        <observer name="arpatech_smsgateway_observer_shipment" instance="Arpatech\Smsgateway\Observer\Shipment"/>
+    </event>
+    <event name="sales_order_status_confirm">
+        <observer name="arpatech_smsgateway_observer_confirmed" instance="Arpatech\Smsgateway\Observer\Confirmed"/>
+    </event>
+</config>

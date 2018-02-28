@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * SMS Module menu file   
+ * Company Arpatech 
+ * Developer Abdul Wahab
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Arpatech_Smsgateway::smsgateway" title="SMS" module="Arpatech_Smsgateway" sortOrder="50" resource="Arpatech_Smsgateway::smsgateway" />
+        <add id="Arpatech_Smsgateway::config" title="Configuration" module="Arpatech_Smsgateway" sortOrder="60"
+             action="adminhtml/system_config/edit/section/arpatech_smsgateway_configuration"
+             resource="Arpatech_Smsgateway::smsgateway"  parent="Arpatech_Smsgateway::smsgateway"/>
+    </menu>
+</config>
