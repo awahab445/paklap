@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Arpatech_CityDropdown::Dropdown" title="City DropDown" module="Arpatech_CityDropdown" sortOrder="51" resource="Arpatech_CityDropdown::CityDropdown"/>
+        <add id="Arpatech_CityDropdown::CityDropdown" title="Manage Cities" module="Arpatech_CityDropdown" sortOrder="10" action="city/citydropdown" resource="Arpatech_CityDropdown::CityDropdown" parent="Arpatech_CityDropdown::Dropdown"/>
+    </menu>
+</config>
