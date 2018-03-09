@@ -19,4 +19,7 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Quote\Model\ShippingMethodManagement">
+        <plugin name="arpatech_cityropdown_getShippingMethods" type="Arpatech\CityDropdown\Plugin\Quote\Model\ShippingMethodManagement" sortOrder="1"/>
+    </type>
 </config>

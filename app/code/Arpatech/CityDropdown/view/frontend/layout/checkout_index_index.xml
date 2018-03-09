@@ -220,10 +220,10 @@
                                                                     <item name="visible" xsi:type="boolean">false</item>
                                                                 </item>
                                                                 <!-- The following items override configuration of corresponding address attributes -->
-                                                                <item name="city" xsi:type="array">
-                                                                    <!-- Make region attribute invisible on frontend. Corresponding input element is created by region_id field -->
-                                                                    <item name="visible" xsi:type="boolean">false</item>
-                                                                </item>
+                                                                <!--<item name="city" xsi:type="array">-->
+                                                                    <!--&lt;!&ndash; Make region attribute invisible on frontend. Corresponding input element is created by region_id field &ndash;&gt;-->
+                                                                    <!--<item name="visible" xsi:type="boolean">false</item>-->
+                                                                <!--</item>-->
                                                                 <item name="city" xsi:type="array">
                                                                     <item name="component" xsi:type="string">Arpatech_CityDropdown/js/form/element/city</item>
                                                                     <item name="config" xsi:type="array">

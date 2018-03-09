@@ -32,7 +32,7 @@ define([
             if (!value) {
                 return;
             }
-
+            //console.log(country);
             option = options[value];
             if (this.skipValidation) {
                 this.validation['required-entry'] = false;
@@ -59,6 +59,7 @@ define([
         filter: function (value, field) {
             var optionData = this;
             var country = registry.get(this.parentName + '.' + 'country_id');
+            console.log(country);
             //console.log(this.parentName);
             var option = country.indexedOptions[value];
             console.log(country.value());
@@ -85,6 +86,7 @@ define([
                                 }else{
                                     optionData.setVisible(false);
                                     optionData.toggleInput(true);
+                                    country.disabled(true);
                                     //optionData.FloatFiled('left');
                                     //console.log(optionData.innerHTML());
                                 }
@@ -97,6 +99,7 @@ define([
                 }else{
                     optionData.setVisible(false);
                     optionData.toggleInput(true);
+                    country.disabled(true);
                     //optionData.FloatFiled('left');
                 }
             }

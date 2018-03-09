@@ -283,11 +283,11 @@ class LayoutProcessor extends \Magento\Checkout\Block\Checkout\LayoutProcessor
                                     'field' => 'country_id',
                                 ],
                             ],
-                            'city' => [
-                                'sortOrder' => 202,
-//                                'displayArea' => 'after_region_id',
-                                'visible' => false,
-                            ],
+//                            'city' => [
+//                                'sortOrder' => 202,
+////                                'displayArea' => 'after_region_id',
+//                                'visible' => false,
+//                            ],
                             'city' => [
                                 'sortOrder' => 202,
                                 'displayArea' => 'after_country_id',
