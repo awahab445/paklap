@@ -52,9 +52,11 @@ define(
         var countryElement = null,
             postcodeElement = null,
             postcodeElementName = 'postcode',
+            cityElement = null,
+            cityElementName = 'city',
             observedElements = [],
             observableElements,
-            defaultRules = {'rate': {'postcode': {'required': true}, 'country_id': {'required': true}}},
+            defaultRules = {'rate': {'city': {'required': true}, 'postcode': {'required': true}, 'country_id': {'required': true}}},
             addressFields = window.checkoutConfig.oscConfig.addressFields;
 
         return _.extend(Validator, {
@@ -65,27 +67,47 @@ define(
             getValidationRules: function () {
                 var rules = shippingRatesValidationRules.getRules();
 
-                return _.isEmpty(rules) ? defaultRules : rules;
+                return defaultRules;
+                //return _.isEmpty(rules) ? defaultRules : rules;
             },
 
             oscValidateAddressData: function (field, address) {
+
                 var self = this,
                     canLoad = false;
 
                 $.each(self.getValidationRules(), function (carrier, fields) {
+                    //console.log('here',field);
+                    //console.log(fields);
                     if (fields.hasOwnProperty(field)) {
+                        //console.log(fields);
                         var missingValue = false;
                         $.each(fields, function (key, rule) {
+
+                            //console.log('city check',key);
+
                             if (self.isFieldExisted(key) && address.hasOwnProperty(key) && rule.required && utils.isEmpty(address[key])) {
-                                var regionFields = ['region', 'region_id', 'region_id_input'];
-                                if ($.inArray(key, regionFields) === -1
-                                    || utils.isEmpty(address['region']) && utils.isEmpty(address['region_id'])
+
+                                var cityFields = ['city'];
+                                if ($.inArray(key, cityFields) !== -1
+                                    || !utils.isEmpty(address['city'])
                                 ) {
-                                    missingValue = true;
+                                    console.log('city check',key);
+                                    missingValue = false;
 
                                     return false;
                                 }
                             }
+
+                            //var cityFields = ['city'];
+                            //if ($.inArray(key, cityFields) !== -1
+                            //    || !utils.isEmpty(address['city']) ) {
+                            //    console.log('testing');
+                            //    missingValue = false;
+                            //
+                            //    return true;
+                            //}
+
                         });
                         if (!missingValue) {
                             canLoad = true;
@@ -99,9 +121,12 @@ define(
             },
 
             isFieldExisted: function (field) {
+                //console.log(field);
                 var result = false;
+                console.log(field,observedElements);
                 $.each(observedElements, function (key, element) {
                     if (field === element.index) {
+                        //console.log(field);
                         result = true;
                         return false;
                     }
@@ -127,7 +152,12 @@ define(
                     // Add postcode field to observables if not exist for zip code validation support
                     observableElements.push(postcodeElementName);
                 }
-
+                if ($.inArray(cityElementName, observableElements) === -1) {
+                    // Add city field to observables if not exist for zip code validation support
+                    //console.log('here');
+                    observableElements.push(cityElementName);
+                }
+                console.log(addressFields);
                 $.each(addressFields, function (index, field) {
                     uiRegistry.async(formPath + '.' + field)(self.oscBindHandler.bind(self));
                 });
@@ -153,9 +183,10 @@ define(
 
                             address = addressConverter.formAddressDataToQuoteAddress(addressFlat);
                             selectShippingAddress(address);
-
+                            //console.log(addressFlat);
                             if ($.inArray(element.index, observableElements) !== -1 && self.oscValidateAddressData(element.index, addressFlat)) {
                                 shippingRateService.isAddressChange = true;
+                                console.log('city change');
 
                                 clearTimeout(self.validateAddressTimeout);
                                 self.validateAddressTimeout = setTimeout(function () {
@@ -169,7 +200,12 @@ define(
                         postcodeElement = element;
                     }
                     if (element.index === 'country_id') {
+                        console.log('checking 12');
                         countryElement = element;
+                    }
+                    if (element.index === cityElementName) {
+                        console.log('checking',cityElementName);
+                        cityElement = element;
                     }
                 }
             },
