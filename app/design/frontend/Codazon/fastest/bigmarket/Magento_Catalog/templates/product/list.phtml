@@ -92,8 +92,7 @@ $filterHelper = $this->helper('Codazon\ProductFilter\Helper\Data');
 				<?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
 				<?php foreach ($_productCollection as $_product): ?>
 					<?php /* @escapeNotVerified */ echo($iterator++ == 1) ? '<li class="item product product-item" style="padding: 0 5px;margin: 5px 0;">' : '</li><li class="item product product-item" style="padding: 0 5px;margin: 5px 0;">' ?>
-					<div class="product-item-info" data-container="product-grid">                	
-						<?php if($viewMode == 'grid') {?>						
+					<div class="product-item-info" data-container="product-grid">
 						<div class="cdz-hover-section">
 						<div class="cdz-product-top">
 						<?php						
@@ -105,7 +104,7 @@ $filterHelper = $this->helper('Codazon\ProductFilter\Helper\Data');
 						}
 						?>
 						<?php // Product Image ?>
-							
+							<?php if($viewMode == 'grid') {?>
 						<a href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1">
 							<span class="main-image">
 								<?php echo $productImage->toHtml(); ?>
@@ -114,6 +113,17 @@ $filterHelper = $this->helper('Codazon\ProductFilter\Helper\Data');
 								<?php echo $productHoverImage->toHtml(); ?>
 							</span>
 						</a>
+							<?php } else{?>
+								<a href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1">
+							<span class="main-image">
+								<?php echo $productImage->toHtml(); ?>
+							</span>
+							<span class="hover-image" style="width: 120px;">
+								<?php echo $productHoverImage->toHtml(); ?>
+							</span>
+								</a>
+							<?php
+							} ?>
 						<div class="qs-button-icon">
 						<?php echo $this->helper('Codazon\QuickShop\Helper\Data')->getQuickShopButton($_product,'show-tooltip'); ?>
 						</div>
@@ -134,7 +144,6 @@ $filterHelper = $this->helper('Codazon\ProductFilter\Helper\Data');
 					</div>										
 						<?php $labelHelper->showLabel($_product) ?>									
 						</div>
-						<?php } ?>
 						<div class="product details product-item-details">
 							<?php
 								$_productNameStripped = $block->stripTags($_product->getName(), null, true);
