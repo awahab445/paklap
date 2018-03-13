@@ -17,8 +17,7 @@ $helper = $this->helper('Magefan\Blog\Helper\Image');
         </div>
     </div>
 	<?php $i = 0 ?>
-	<div class="post-items <?php echo ($showSlider)?'cdz-slider':''; ?>"
-		<?php if($showSlider): ?>
+	<div class="post-items cdz-slider"
 			data-margin="20"
 			data-items="4" 
 			data-items-0="1" 
@@ -27,7 +26,6 @@ $helper = $this->helper('Magefan\Blog\Helper\Image');
 			data-items-1024="3" 
 			data-items-1280="3" 
 			data-items-1440="3"			
-		<?php endif; ?>
 	>
 	<?php foreach($posts as $item): ?>
 	<?php
