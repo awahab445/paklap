@@ -98,14 +98,14 @@
 				$('.same-height').each(function(){
 					var $ul = $(this);			
 					//setTimeout(function () {
-						$ul.find('.product-item-details').removeAttr('style');
-						$ul.find('.product-item-details').each(function()				
-						{																				
-							if($(this).height() > maxHeight){
-								maxHeight = $(this).height();	
-							}							
-						});											
-						$ul.find('.product-item-details').height(maxHeight);
+					//	$ul.find('.product-item-details').removeAttr('style');
+					//	$ul.find('.product-item-details').each(function()
+					//	{
+					//		if($(this).height() > maxHeight){
+					//			maxHeight = $(this).height();
+					//		}
+					//	});
+					//	$ul.find('.product-item-details').height(maxHeight);
 					//},100);							
 				});
 			}
