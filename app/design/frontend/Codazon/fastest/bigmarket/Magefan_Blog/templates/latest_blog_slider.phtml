@@ -42,7 +42,7 @@ $helper = $this->helper('Magefan\Blog\Helper\Image');
 				<a href="<?php echo $url ?>">                
 					<img class="img-responsive" width="<?php echo $width ?>" height="<?php echo $height ?>" src="<?php echo $helper->init($item->getPostImage())->resize($width,$height); ?>" />
 				</a>
-				<div class="blog-date"><?php echo $block->getPostedOn($item,'F d, Y'); ?></span></div>
+				<div class="blog-date"><?php echo $item->getPublishDate($item,'F d, Y'); ?></span></div>
 			</div>
 			<div class="cdz-blog-bottom">
 				<h5 class="blog-title"><a href="<?php echo $url ?>"><?php echo $item->getTitle() ?></a></h5>
