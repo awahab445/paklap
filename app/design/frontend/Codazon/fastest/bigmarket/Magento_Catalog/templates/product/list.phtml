@@ -144,11 +144,11 @@ $filterHelper = $this->helper('Codazon\ProductFilter\Helper\Data');
 					</div>										
 						<?php $labelHelper->showLabel($_product) ?>									
 						</div>
-						<div class="product details product-item-details" style="<?php echo ($viewMode == 'list') ? 'height: auto !important; padding-top: 40px;' : ''?>">
+						<div class="product details product-item-details" style="<?php echo ($viewMode == 'list') ? 'height: auto !important; padding-top: 40px; !important' : ''?>">
 							<?php
 								$_productNameStripped = $block->stripTags($_product->getName(), null, true);
 							?>
-							<strong class="product name product-item-name" style="<?php echo ($viewMode == 'list') ? 'float: left;position: absolute;bottom: 0; margin:0;   max-width: 70%;' : ''?>">
+							<strong class="product name product-item-name" style="<?php echo ($viewMode == 'list') ? 'float: left; max-width: 70%;' : ''?>">
 								<a class="product-item-link"
 								   href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>">
 									<?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
