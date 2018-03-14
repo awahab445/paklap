@@ -45,6 +45,7 @@ class PaymentMethodAvailable implements ObserverInterface
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\ObjectManagerInterface $_objectManager,
         \Magento\Catalog\Model\ProductRepository $productRepository,
+        \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
         \Magento\Checkout\Model\Cart $cart
     ) {
         $this->_logger = $_logger;
@@ -52,6 +53,7 @@ class PaymentMethodAvailable implements ObserverInterface
         $this->_storeManager = $storeManager;
         $this->_objectManager = $_objectManager;
         $this->productRepository =    $productRepository;
+        $this->quoteRepository = $quoteRepository;
         $this->_cart = $cart;
     }
 
@@ -63,23 +65,34 @@ class PaymentMethodAvailable implements ObserverInterface
     public function execute(EventObserver $observer)
     {
 
+        if($observer->getEvent()->getMethodInstance()->getCode() !="cashondelivery"){
+            return;
+        }
+
         $cart = $this->_cart;
         // get cart items
         $items = $cart->getItems();
+        $quote = $this->quoteRepository->getActive($cart->getQuote()->getId());
+        $shippingAddress = $quote->getShippingAddress();
         // get custom options value of cart items
 
         $is_product_on_cod = false;
-        foreach($items as $quote_item){
+        if(strtolower($shippingAddress->getCity()) == 'karachi'){
+            $is_product_on_cod = false;
+        }else{
+            //echo "there here";exit;
+            foreach($items as $quote_item){
 
-            $_prodcut_info = $this->productRepository->get($quote_item->getSku());
+                $_prodcut_info = $this->productRepository->get($quote_item->getSku());
 
-            if( $_prodcut_info->getAttributeText('is_on_cod') == 'Yes'){
-                $is_product_on_cod = true;
-                break;
+                if( $_prodcut_info->getAttributeText('is_on_cod') != 'Yes'){
+                    $is_product_on_cod = true;
+                    break;
+                }
             }
         }
 
-        if($observer->getEvent()->getMethodInstance()->getCode()=="cashondelivery" && !$is_product_on_cod){
+        if($is_product_on_cod){
             $checkResult = $observer->getEvent()->getResult();
             //echo $observer->getEvent()->getOrder()->getId();exit;
             $checkResult->setData('is_available', false); //this is disabling the payment method at checkout page
