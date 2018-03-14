@@ -20313,3 +20313,12 @@ ul.cdz-product-labels li.label-item.hot {
         margin-left: 105px;
     }
 }
+@media (min-width: 320px) and (max-width: 768px) {
+    #mob-buyNowbt {
+        position: fixed;
+        bottom: 0;
+        padding: 8px 20px;
+        background: rgba(0,0,0,.275);
+        width: 100%;
+    }
+}
