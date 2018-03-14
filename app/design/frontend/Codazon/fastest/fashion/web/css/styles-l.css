@@ -17570,7 +17570,7 @@ ul.cdz-product-labels li.label-item.hot {
         padding: 0 10px 0 140px;
     }
     .header-wrapper-content.sticky-menu.active .header-wrapper-bottom {
-        padding: 4px 0;
+        padding: 0;
     }
     .header-wrapper-content.sticky-menu.active .header.content > .row > [class*='col-sm-'] {
         position: static;
