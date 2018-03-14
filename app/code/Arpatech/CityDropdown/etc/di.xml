@@ -22,4 +22,7 @@
     <type name="Magento\Quote\Model\ShippingMethodManagement">
         <plugin name="arpatech_cityropdown_getShippingMethods" type="Arpatech\CityDropdown\Plugin\Quote\Model\ShippingMethodManagement" sortOrder="1"/>
     </type>
+    <!--<type name="Magento\Checkout\Model\ShippingInformationManagement">-->
+        <!--<plugin name="arpatech_cityropdown_getPaymentMethods" type="Arpatech\CityDropdown\Plugin\Checkout\Model\ShippingInformationManagement" sortOrder="1"/>-->
+    <!--</type>-->
 </config>
