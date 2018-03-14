@@ -31809,3 +31809,12 @@ fieldset[disabled] .sidebar .block-addbysku .action.remove {
     .page-layout-1column .block.widget .products-grid .product-item,
     .page-layout-3columns .block.widget .products-grid .product-item { width: 100%/3 }*/
 }
+@media all and (min-width: 320px) and (max-width: 768px) {
+    #mob-buyNowbt {
+        position: fixed;
+        bottom: 0;
+        padding: 8px 20px;
+        background: rgba(0,0,0,.275);
+        width: 100%;
+    }
+}
