@@ -31812,10 +31812,11 @@ fieldset[disabled] .sidebar .block-addbysku .action.remove {
 @media all and (min-width: 320px) and (max-width: 768px) {
     #mob-buyNowbt {
         position: fixed;
-        bottom: 0;
+        bottom: 55px;
         padding: 8px 20px;
         background: rgba(0,0,0,.275);
         width: 100%;
+        z-index: 9999;
     }
     #mob-buyNowbt .btn {
         font-size: 1.6rem;
@@ -31842,5 +31843,6 @@ fieldset[disabled] .sidebar .block-addbysku .action.remove {
         color: #fff;
         background-color: #d9534f;
         border-color: #d43f3a;
+        width: 100%;
     }
 }
