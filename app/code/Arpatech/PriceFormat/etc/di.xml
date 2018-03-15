@@ -6,5 +6,8 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
-    <preference for="Magento\Framework\Pricing\Render\Amount" type="Arpatech\PriceFormat\Pricing\Render\Amount" />
+    <!--<preference for="Magento\Framework\Pricing\Render\Amount" type="Arpatech\PriceFormat\Pricing\Render\Amount" />-->
+    <type name="Magento\Framework\Pricing\Render\Amount">
+        <plugin name="arpatech_priceformat_product" type="Arpatech\PriceFormat\Plugin\Pricing\Render\Amount" sortOrder="1"/>
+    </type>
 </config>
