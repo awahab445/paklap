@@ -46,7 +46,7 @@ class Group extends \Magento\Framework\View\Element\Template
     protected $_newsCollection;
 
     /**
-     * @var \Arpatech\NewsTicker\Model\ResourceModel\Groups\CollectionFactory
+     * @var \Arpatech\NewsTicker\Model\ResourceModel\Group\CollectionFactory
      */
 
     protected $_groupCollection;
