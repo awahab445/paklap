@@ -1,0 +1,45 @@
+<?php
+/**
+ * Arpatech Software.
+ *
+ * @category  Arpatech
+ * @package   Arpatech_NewsTicker
+ * @author    Arpatech
+ * @copyright Copyright (c) 2010-2016
+ * @license
+ */
+?>
+<script>
+    require([
+        'jquery',
+        'mage/adminhtml/grid',
+        'prototype'
+    ], function(jQuery){
+        jQuery("#edit_form").append('<input type="hidden" id="news_ids" name="news_ids" value="">');
+        var checkBoxes = "<?php echo $this->getImageIds() ?>";
+        jQuery('#news_ids').val(checkBoxes);
+        function setValues() {
+            var ids = [];
+            jQuery("table tbody tr td input:checkbox").each(function(){
+                if(jQuery(this).prop("checked")) {
+                    id = jQuery(this).val();
+                    ids.push(id);
+                }
+            });
+            ids.sort();
+            ids = ids.join(',');
+            jQuery("#news_ids").val(ids);
+        }
+        jQuery(document).ready(function(){
+            jQuery(document).on('click', 'table tbody tr', function(event) {
+                setValues();
+            });
+            jQuery(document).on('click', 'table tbody tr td', function(event) {
+                setValues();
+            });
+            jQuery(document).on('click', 'table thead tr', function(event) {
+                setValues();
+            });
+        });
+    });
+</script>

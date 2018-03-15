@@ -1,0 +1,29 @@
+ #wk_nt_news {
+     width:100%;
+     height:25px;
+     padding-top: 5px;
+     overflow: hidden;
+     position: relative;
+     float:left;
+}
+#wk_nt_news ul {
+     list-style: none;
+     padding:0;
+     position: absolute;
+}
+#wk_nt_news ul li {
+font-size:10px;
+     float:left;
+     padding-left:30px;
+     cursor: pointer;
+}
+.wk_nt_newsticker {
+     width: 100%;
+     background: #373837;
+     /*padding: 5px;
+     height: 30px;*/
+     color: white;
+     height: 20px;
+     /*border-radius: 5px;*/
+     float: left;
+}

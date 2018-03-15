@@ -1,0 +1,47 @@
+<?php
+/**
+ * Arpatech Software.
+ *
+ * @category  Arpatech
+ * @package   Arpatech_NewsTicker
+ * @author    Arpatech
+ * @copyright Copyright (c) 2010-2016
+ * @license
+ */
+?>
+
+<?php
+$news_content='';    
+$groupCode = $this->getGroupCode();
+    $NewsIds = $this->getNewsIdsFromGroupCode($groupCode);
+    $speed=$this->getSpeed($groupCode);
+    $displayType=$this->getDisplayType($groupCode);
+    $direction=$this->getDirection($groupCode);
+    $fadeOutSpeed=$this->getFadeOutSpeed($groupCode);
+    $fadeInSpeed=$this->getFadeInSpeed($groupCode);
+    $data = json_encode(["fadeoutspeed" => $fadeOutSpeed , "fadeinspeed" => $fadeInSpeed , "direction" => $direction , "speed" => $speed , "displaytype" => $displayType]);
+?>
+<div class="wk_nt_newsticker">
+<div id="wk_nt_news">
+        <ul>
+          <?php $i=1;
+          //echo "hello"; print_r($NewsIds);exit();
+          foreach($NewsIds as $id){ 
+          $news=$this->getNewsContent($id); 
+          foreach ($news as $newscontent) {
+            $news_content=$newscontent->getNewsContent();
+          }
+          echo "<li>". $news_content ."</li>";
+          $i++;
+          }
+          ?>
+        </ul>
+    </div> 
+    </div>
+<script type="text/x-magento-init">
+{
+"body": {
+"Arpatech_NewsTicker/js/newsticker": <?php echo $data ?>
+}
+}
+</script>

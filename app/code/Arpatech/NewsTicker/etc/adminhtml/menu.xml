@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Arpatech_NewsTicker::newsticker" title="News Ticker" module="Arpatech_NewsTicker" sortOrder="11" resource="Arpatech_NewsTicker::newsticker"/>
+        <add id="Arpatech_NewsTicker::news" title="Manage News" module="Arpatech_NewsTicker" sortOrder="1" parent="Arpatech_NewsTicker::newsticker" action="newsticker/news" resource="Arpatech_NewsTicker::news"/>
+        <add id="Arpatech_NewsTicker::group" title="Manage Group" module="Arpatech_NewsTicker" sortOrder="2" parent="Arpatech_NewsTicker::newsticker" action="newsticker/group" resource="Arpatech_NewsTicker::group"/>
+    </menu>
+</config>
