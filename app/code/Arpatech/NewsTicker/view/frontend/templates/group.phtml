@@ -9,10 +9,10 @@
  * @license
  */
 ?>
-
 <?php
-$news_content='';    
-$groupCode = $this->getGroupCode();
+$news_content='';
+//$groupCode = $this->getGroupCode();
+$groupCode = "paklap_news";
     $NewsIds = $this->getNewsIdsFromGroupCode($groupCode);
     $speed=$this->getSpeed($groupCode);
     $displayType=$this->getDisplayType($groupCode);
@@ -21,18 +21,20 @@ $groupCode = $this->getGroupCode();
     $fadeInSpeed=$this->getFadeInSpeed($groupCode);
     $data = json_encode(["fadeoutspeed" => $fadeOutSpeed , "fadeinspeed" => $fadeInSpeed , "direction" => $direction , "speed" => $speed , "displaytype" => $displayType]);
 ?>
+<?php
+if($NewsIds && $NewsIds > 1){
+?>
 <div class="wk_nt_newsticker">
 <div id="wk_nt_news">
         <ul>
           <?php $i=1;
-          //echo "hello"; print_r($NewsIds);exit();
-          foreach($NewsIds as $id){ 
-          $news=$this->getNewsContent($id); 
-          foreach ($news as $newscontent) {
-            $news_content=$newscontent->getNewsContent();
-          }
-          echo "<li>". $news_content ."</li>";
-          $i++;
+          foreach($NewsIds as $id){
+              $news=$this->getNewsContent($id);
+              foreach ($news as $newscontent) {
+                $news_content=$newscontent->getNewsContent();
+              }
+              echo "<li>". $news_content ."</li>";
+              $i++;
           }
           ?>
         </ul>
@@ -45,3 +47,6 @@ $groupCode = $this->getGroupCode();
 }
 }
 </script>
+<?php
+}
+?>

@@ -3,4 +3,9 @@
 	<head>
 		<css src="Arpatech_NewsTicker::css/style.css"/>
 	</head>
+	<body>
+		<referenceContainer name="page.wrapper">
+			<block class="Arpatech\NewsTicker\Block\Group\Group" name="arpatech.newsticker" template="Arpatech_NewsTicker::group.phtml" before="header.container"/>
+		</referenceContainer>
+	</body>
 </page>
