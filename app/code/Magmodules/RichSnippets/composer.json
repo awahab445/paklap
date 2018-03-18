@@ -1,0 +1,19 @@
+{
+  "name": "magmodules/m2-rich-snippets-suite",
+  "description": "Rich Snippetes Suite for Magento 2",
+  "type": "magento2-module",
+  "version": "1.0.4",
+  "license": [
+    "Commercial"
+  ],
+  "require": {
+  },
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Magmodules\\RichSnippets\\": ""
+    }
+  }
+}
