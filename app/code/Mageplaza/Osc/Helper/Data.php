@@ -365,7 +365,7 @@ class Data extends AbstractData
     public function isEnabled($store = null)
     {
         //return $this->getDisplayConfig('osc/general/is_enabled', $store) != ComponentPosition::NOT_SHOW;
-        return $this->getConfigValue('osc/general/is_enabled', $store);
+        return $this->getConfigValue('osc/general/enabled', $store);
     }
 
     /**
