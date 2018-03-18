@@ -16,12 +16,12 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="Mageplaza_Osc" setup_version="2.1.2">
+    <module name="Mageplaza_Osc" setup_version="2.1.3">
         <sequence>
             <module name="Mageplaza_Core"/>
             <module name="Magento_Checkout"/>

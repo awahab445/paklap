@@ -15,11 +15,13 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
+
 namespace Mageplaza\Osc\Setup;
 
+use Magento\Framework\DB\Ddl\Table;
 use Magento\Framework\Setup\InstallDataInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
@@ -32,32 +34,32 @@ use Magento\Sales\Setup\SalesSetupFactory;
  */
 class InstallData implements InstallDataInterface
 {
-	/**
-	 * @var SalesSetupFactory
-	 */
-	protected $salesSetupFactory;
+    /**
+     * @var SalesSetupFactory
+     */
+    protected $salesSetupFactory;
 
-	/**
-	 * @param SalesSetupFactory $salesSetupFactory
-	 */
-	public function __construct(SalesSetupFactory $salesSetupFactory)
-	{
-		$this->salesSetupFactory = $salesSetupFactory;
-	}
+    /**
+     * @param SalesSetupFactory $salesSetupFactory
+     */
+    public function __construct(SalesSetupFactory $salesSetupFactory)
+    {
+        $this->salesSetupFactory = $salesSetupFactory;
+    }
 
-	/**
-	 * {@inheritdoc}
-	 * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
-	 */
-	public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
-	{
-		/** @var \Magento\Sales\Setup\SalesSetup $salesInstaller */
-		$salesInstaller = $this->salesSetupFactory->create(['resourceName' => 'sales_setup', 'setup' => $setup]);
+    /**
+     * {@inheritdoc}
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
+    public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
+    {
+        /** @var \Magento\Sales\Setup\SalesSetup $salesInstaller */
+        $salesInstaller = $this->salesSetupFactory->create(['resourceName' => 'sales_setup', 'setup' => $setup]);
 
-		$setup->startSetup();
+        $setup->startSetup();
 
-		$salesInstaller->addAttribute('order', 'osc_order_comment', ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT]);
+        $salesInstaller->addAttribute('order', 'osc_order_comment', ['type' => Table::TYPE_TEXT]);
 
-		$setup->endSetup();
-	}
+        $setup->endSetup();
+    }
 }

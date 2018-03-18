@@ -14,7 +14,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 
@@ -22,6 +22,7 @@ define(
     [
         'ko',
         'jquery',
+        'underscore',
         'Magento_Checkout/js/model/quote',
         'Mageplaza_Osc/js/model/resource-url-manager',
         'mage/storage',
@@ -34,6 +35,7 @@ define(
     ],
     function (ko,
               $,
+              _,
               quote,
               resourceUrlManager,
               storage,
@@ -42,8 +44,7 @@ define(
               methodConverter,
               errorProcessor,
               fullScreenLoader,
-              selectBillingAddressAction
-    ) {
+              selectBillingAddressAction) {
         'use strict';
 
         return {
@@ -51,7 +52,7 @@ define(
                 var payload,
                     addressInformation = {},
                     additionInformation = oscData.getData();
-                if(window.checkoutConfig.oscConfig.giftMessageOptions.isOrderLevelGiftOptionsEnabled) {
+                if (window.checkoutConfig.oscConfig.giftMessageOptions.isOrderLevelGiftOptionsEnabled) {
                     additionInformation.giftMessage = this.saveGiftMessage();
                 }
                 if (!quote.billingAddress()) {
@@ -69,9 +70,20 @@ define(
                     return $.Deferred().resolve();
                 }
 
+                var customAttributes = {};
+                if (_.isObject(quote.billingAddress().customAttributes)) {
+                    _.each(quote.billingAddress().customAttributes, function (attribute, key) {
+                        if (_.isObject(attribute)) {
+                            customAttributes[attribute.attribute_code] = attribute.value
+                        } else if (_.isString(attribute)) {
+                            customAttributes[key] = attribute
+                        }
+                    });
+                }
+
                 payload = {
                     addressInformation: addressInformation,
-                    customerAttributes: quote.billingAddress().customAttributes,
+                    customerAttributes: customAttributes,
                     additionInformation: additionInformation
                 };
 
@@ -90,12 +102,12 @@ define(
                     }
                 );
             },
-            saveGiftMessage: function(){
-                var giftMessage={};
-                if(!$("#osc-gift-message").is(":checked"))$('.gift-options-content').find('input:text,textarea').val('');
-                giftMessage.sender      = $("#gift-message-whole-from").val();
-                giftMessage.recipient   = $("#gift-message-whole-to").val();
-                giftMessage.message     = $("#gift-message-whole-message").val();
+            saveGiftMessage: function () {
+                var giftMessage = {};
+                if (!$("#osc-gift-message").is(":checked")) $('.gift-options-content').find('input:text,textarea').val('');
+                giftMessage.sender = $("#gift-message-whole-from").val();
+                giftMessage.recipient = $("#gift-message-whole-to").val();
+                giftMessage.message = $("#gift-message-whole-message").val();
                 return JSON.stringify(giftMessage);
             }
         };

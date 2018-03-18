@@ -14,7 +14,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 
@@ -31,11 +31,13 @@ define(
         'use strict';
         var cacheKey = 'deliveryTime',
             isVisible = oscData.getData(cacheKey) ? true : false;
+        var cacheKeyHouseSecurityCode = 'houseSecurityCode';
 
         return Component.extend({
             defaults: {
                 template: 'Mageplaza_Osc/container/delivery-time'
             },
+            houseSecurityCodeValue: ko.observable(),
             deliveryTimeValue: ko.observable(),
             isVisible: ko.observable(isVisible),
             initialize: function () {
@@ -66,6 +68,11 @@ define(
                     oscData.setData(cacheKey, newValue);
                     self.isVisible(true);
                 });
+                //House Security Code
+                this.houseSecurityCodeValue(oscData.getData(cacheKeyHouseSecurityCode));
+                this.houseSecurityCodeValue.subscribe(function (newValue) {
+                    oscData.setData(cacheKeyHouseSecurityCode, newValue);
+                });
                 return this;
             },
             removeDeliveryTime: function () {
@@ -74,6 +81,12 @@ define(
                     $("#osc-delivery-time").attr('value', '');
                     this.isVisible(false);
                 }
+            },
+            canUseHouseSecurityCode: function () {
+                if (!window.checkoutConfig.oscConfig.deliveryTimeOptions.houseSecurityCode) {
+                    return true;
+                }
+                return false;
             }
         });
     }

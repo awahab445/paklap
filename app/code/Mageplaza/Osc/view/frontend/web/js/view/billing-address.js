@@ -14,7 +14,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 
@@ -35,6 +35,7 @@ define(
         'Magento_Ui/js/model/messageList',
         'Magento_Checkout/js/model/checkout-data-resolver',
         'Mageplaza_Osc/js/model/address/auto-complete',
+        'Mageplaza_Osc/js/model/compatible/amazon-pay',
         'uiRegistry',
         'mage/translate',
         'rjsResolver'
@@ -54,6 +55,7 @@ define(
               globalMessageList,
               checkoutDataResolver,
               addressAutoComplete,
+              amazonPay,
               registry,
               $t,
               resolver) {
@@ -67,6 +69,7 @@ define(
                 template: ''
             },
             isCustomerLoggedIn: customer.isLoggedIn,
+            isAmazonAccountLoggedIn: amazonPay.isAmazonAccountLoggedIn,
             quoteIsVirtual: quote.isVirtual(),
 
             canUseShippingAddress: ko.computed(function () {
@@ -201,15 +204,25 @@ define(
 
             saveBillingAddress: function (fieldName) {
                 if (!this.isAddressSameAsShipping()) {
-                    if (!canShowBillingAddress) {
+                    if (!canShowBillingAddress && !this.quoteIsVirtual) {
                         selectBillingAddress(quote.shippingAddress());
-                    } else {
+                    } else if (this.isAddressFormVisible()) {
                         var addressFlat = addressConverter.formDataProviderToFlatData(
                             this.collectObservedData(),
                             'billingAddress'
-                        );
+                        ), newBillingAddress;
 
-                        selectBillingAddress(addressConverter.formAddressDataToQuoteAddress(addressFlat));
+                        if (customer.isLoggedIn() && !this.customerHasAddresses) {
+                            this.saveInAddressBook(1);
+                        }
+                        addressFlat.save_in_address_book = this.saveInAddressBook() ? 1 : 0;
+                        newBillingAddress = createBillingAddress(addressFlat);
+
+                        // New address must be selected as a billing address
+                        //
+                        selectBillingAddress(newBillingAddress);
+                        checkoutData.setSelectedBillingAddress(newBillingAddress.getKey());
+                        checkoutData.setNewCustomerBillingAddress(addressFlat);
 
                         if (window.checkoutConfig.reloadOnBillingAddress && (fieldName == 'country_id')) {
                             setBillingAddressAction(globalMessageList);
@@ -234,6 +247,11 @@ define(
             },
 
             validate: function () {
+
+                if (this.isAmazonAccountLoggedIn()) {
+                    return true;
+                }
+
                 if (this.isAddressSameAsShipping()) {
                     oscData.setData('same_as_shipping', true);
                     return true;

@@ -14,7 +14,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 
@@ -27,6 +27,23 @@ define(
         "use strict";
 
         return $.extend({
+            /** Get url for saving email to quote */
+            getUrlForSaveEmailToQuote: function (quote) {
+                var params = {cartId: quote.getQuoteId()};
+                var urls = {
+                    'guest': '/guest-carts/:cartId/save-email-to-quote',
+                };
+                return this.getUrl(urls, params);
+            },
+
+            /** Get url for checking email */
+            getUrlForCheckIsEmailAvailable: function (quote) {
+                var params = {cartId: quote.getQuoteId()};
+                var urls = {
+                    'guest': '/guest-carts/:cartId/isEmailAvailable',
+                };
+                return this.getUrl(urls, params);
+            },
 
             /** Get url for update item qty and remove item */
             getUrlForUpdateItemInformation: function (quote, isRemove) {
@@ -48,7 +65,7 @@ define(
                 };
                 return this.getUrl(urls, params);
             },
-            getUrlForGiftWrapInformation: function(quote){
+            getUrlForGiftWrapInformation: function (quote) {
                 var params = (this.getCheckoutMethod() == 'guest') ? {cartId: quote.getQuoteId()} : {};
                 var urls = {
                     'guest': '/guest-carts/:cartId/update-gift-wrap',
@@ -65,6 +82,14 @@ define(
                 };
                 return this.getUrl(urls, params);
             },
+            getUrlForGiftMessageItemInformation: function (quote, itemId) {
+                var params = (this.getCheckoutMethod() == 'guest') ? {cartId: quote.getQuoteId()} : {};
+                var urls = {
+                    'guest': '/guest-carts/:cartId/gift-message/' + itemId,
+                    'customer': '/carts/mine/gift-message/' + itemId
+                };
+                return this.getUrl(urls, params);
+            }
         }, resourceUrlManager);
     }
 );

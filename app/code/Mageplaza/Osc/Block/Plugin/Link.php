@@ -15,10 +15,14 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
+
 namespace Mageplaza\Osc\Block\Plugin;
+
+use Magento\Framework\App\RequestInterface;
+use Mageplaza\Osc\Helper\Data as OscHelper;
 
 /**
  * Class Link
@@ -29,20 +33,27 @@ class Link
     /**
      * Request object
      *
-     * @var \Magento\Framework\App\RequestInterface
+     * @var RequestInterface
      */
     protected $_request;
 
     /**
-     * @param \Mageplaza\Osc\Helper\Config $systemConfig
+     * @var OscHelper
+     */
+    protected $oscHelper;
+
+    /**
+     * Link constructor.
+     * @param RequestInterface $httpRequest
+     * @param OscHelper $oscHelper
      */
     public function __construct(
-        \Magento\Framework\App\RequestInterface $httpRequest,
-        \Mageplaza\Osc\Helper\Config $systemConfig
-    ) {
-    
-        $this->_request      = $httpRequest;
-        $this->_systemConfig = $systemConfig;
+        RequestInterface $httpRequest,
+        OscHelper $oscHelper
+    )
+    {
+        $this->_request = $httpRequest;
+        $this->oscHelper = $oscHelper;
     }
 
     /**
@@ -53,7 +64,7 @@ class Link
      */
     public function beforeGetUrl(\Magento\Framework\Url $subject, $routePath = null, $routeParams = null)
     {
-        if ($this->_systemConfig->isEnabled() && $routePath == 'checkout' && $this->_request->getFullActionName() != 'checkout_index_index') {
+        if ($this->oscHelper->isEnabled() && $routePath == 'checkout' && $this->_request->getFullActionName() != 'checkout_index_index') {
             return ['onestepcheckout', $routeParams];
         }
 

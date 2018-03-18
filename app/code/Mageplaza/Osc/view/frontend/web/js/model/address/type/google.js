@@ -14,7 +14,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (https://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (https://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 
@@ -37,6 +37,7 @@ define([
         country: 'short_name',
         postal_code: 'short_name'
     };
+    var isUsedMaterialDesign = window.checkoutConfig.oscConfig.isUsedMaterialDesign;
 
     return Class.extend({
         initialize: function (fieldsetName) {
@@ -81,6 +82,10 @@ define([
                 }
 
                 this.autoComplete = new google.maps.places.Autocomplete(this.inputSelector, options);
+                if (isUsedMaterialDesign) {
+                    $(this.inputSelector).attr('placeholder', '');
+                }
+
                 this.autoComplete.addListener('place_changed', this.placeChangedListener.bind(this));
 
                 //if(!specificCountry) {

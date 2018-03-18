@@ -15,75 +15,80 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
+
 namespace Mageplaza\Osc\Controller\Adminhtml\Field;
 
+use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
+use Magento\Config\Model\ResourceModel\Config;
+use Magento\Framework\App\Config\ReinitableConfigInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Mageplaza\Osc\Helper\Config as HelperConfig;
+use Mageplaza\Osc\Helper\Data as OscHelper;
 
 /**
  * Class Save
  * @package Mageplaza\Osc\Controller\Adminhtml\Field
  */
-class Save extends \Magento\Backend\App\Action
+class Save extends Action
 {
-	/**
-	 * @var \Magento\Config\Model\ResourceModel\Config
-	 */
-	protected $resourceConfig;
+    /**
+     * @var Config
+     */
+    protected $resourceConfig;
 
-	/**
-	 * Application config
-	 *
-	 * @var \Magento\Framework\App\Config\ScopeConfigInterface
-	 */
-	protected $_appConfig;
+    /**
+     * Application config
+     *
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
+    protected $_appConfig;
 
-	/**
-	 * @param \Magento\Backend\App\Action\Context $context
-	 * @param \Magento\Config\Model\ResourceModel\Config $resourceConfig
-	 * @param \Magento\Framework\App\Config\ReinitableConfigInterface $config
-	 */
-	public function __construct(
-		\Magento\Backend\App\Action\Context $context,
-		\Magento\Config\Model\ResourceModel\Config $resourceConfig,
-		\Magento\Framework\App\Config\ReinitableConfigInterface $config
-	)
-	{
-		parent::__construct($context);
+    /**
+     * @param Context $context
+     * @param Config $resourceConfig
+     * @param ReinitableConfigInterface $config
+     */
+    public function __construct(
+        Context $context,
+        Config $resourceConfig,
+        ReinitableConfigInterface $config
+    )
+    {
+        parent::__construct($context);
 
-		$this->resourceConfig = $resourceConfig;
-		$this->_appConfig = $config;
-	}
+        $this->resourceConfig = $resourceConfig;
+        $this->_appConfig = $config;
+    }
 
-	/**
-	 * save position to config
-	 */
-	public function execute()
-	{
-		$result = [
-			'success' => false,
-			'message' => __('Error during save field position.')
-		];
+    /**
+     * save position to config
+     */
+    public function execute()
+    {
+        $result = [
+            'success' => false,
+            'message' => __('Error during save field position.')
+        ];
 
-		$fields = $this->getRequest()->getParam('fields', false);
-		if ($fields) {
-			$this->resourceConfig->saveConfig(
-				HelperConfig::SORTED_FIELD_POSITION,
-				$fields,
-				ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
-				0
-			);
+        $fields = $this->getRequest()->getParam('fields', false);
+        if ($fields) {
+            $this->resourceConfig->saveConfig(
+                OscHelper::SORTED_FIELD_POSITION,
+                $fields,
+                ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
+                0
+            );
 
-			// re-init configuration
-			$this->_appConfig->reinit();
+            // re-init configuration
+            $this->_appConfig->reinit();
 
-			$result['success'] = true;
-			$result['message'] = __('All fields have been saved.');
-		}
+            $result['success'] = true;
+            $result['message'] = __('All fields have been saved.');
+        }
 
-		$this->getResponse()->setBody(\Zend_Json::encode($result));
-	}
+        $this->getResponse()->setBody(OscHelper::jsonEncode($result));
+    }
 }

@@ -15,7 +15,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 -->
@@ -23,6 +23,17 @@
 <div id="payment" role="presentation" class="checkout-payment-method">
     <div class="step-title" data-role="title">
         <i class="fa fa-credit-card"></i>
+        <!-- ko if: window.checkoutConfig.oscConfig.isUsedMaterialDesign -->
+            <span class="fa-stack fa-2x">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <!-- ko if: !!Number(window.checkoutConfig.quoteData.is_virtual) -->
+                    <strong class="fa-stack-1x fa-stack-text fa-inverse">2</strong>
+                <!-- /ko -->
+                <!-- ko ifnot: !!Number(window.checkoutConfig.quoteData.is_virtual) -->
+                    <strong class="fa-stack-1x fa-stack-text fa-inverse">3</strong>
+                <!-- /ko -->
+            </span>
+        <!-- /ko -->
         <span data-bind="i18n: 'Payment Methods'"></span>
     </div>
     <div id="checkout-step-payment"
@@ -51,7 +62,7 @@
                 </div>
                 <!-- ko if: errorValidationMessage().length > 0 -->
                 <div class="message notice">
-                    <span><!-- ko text: errorValidationMessage()--><!-- /ko --></span>
+                    <span><!-- ko i18n: errorValidationMessage()--><!-- /ko --></span>
                 </div>
                 <!-- /ko -->
             </fieldset>

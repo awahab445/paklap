@@ -16,7 +16,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 -->
@@ -58,5 +58,8 @@
                 <item name="osc-data" xsi:type="string">osc-data</item>
             </argument>
         </arguments>
+    </type>
+    <type name="Magento\Eav\Model\Validator\Attribute\Data">
+        <plugin name="mz_osc_validator" type="Mageplaza\Osc\Model\Plugin\Eav\Model\Validator\Attribute\Data"/>
     </type>
 </config>

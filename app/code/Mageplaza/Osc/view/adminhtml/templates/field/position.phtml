@@ -15,7 +15,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 ?>
@@ -164,7 +164,7 @@ $_helper          = $block->getHelperData();
 	});
 </script>
 
-<?php $design = $this->getHelperData()->getConfig()->getDesignConfig(); ?>
+<?php $design = $this->getHelperData()->getDesignConfig(); ?>
 <style type="text/css">
 	.field-title {
 		background-color: <?php echo (isset($design['heading_background']) && $design['heading_background']) ? $design['heading_background'] : '#FF7800' ?>;

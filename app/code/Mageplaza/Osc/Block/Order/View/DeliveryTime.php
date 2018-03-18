@@ -4,9 +4,9 @@
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the mageplaza.com license that is
+ * This source file is subject to the Mageplaza.com license that is
  * available through the world-wide-web at this URL:
- * https://mageplaza.com/LICENSE.txt
+ * https://www.mageplaza.com/LICENSE.txt
  *
  * DISCLAIMER
  *
@@ -14,35 +14,39 @@
  * version in the future.
  *
  * @category    Mageplaza
- * @package     Mageplaza
- * @copyright   Copyright (c) 2016 Mageplaza (https://www.mageplaza.com/)
- * @license     http://mageplaza.com/LICENSE.txt
+ * @package     Mageplaza_Osc
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
  */
+
 namespace Mageplaza\Osc\Block\Order\View;
+
+use Magento\Framework\Registry;
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\Template\Context;
 
 /**
  * Class DeliveryTime
  * @package Mageplaza\Osc\Block\Order\View
  */
-class DeliveryTime extends \Magento\Framework\View\Element\Template
+class DeliveryTime extends Template
 {
     /**
-     * @type \Magento\Framework\Registry|null
+     * @type Registry|null
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Framework\Registry $registry
+     * @param Context $context
+     * @param Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Framework\Registry $registry,
+        Context $context,
+        Registry $registry,
         array $data = []
     )
     {
-
         $this->_coreRegistry = $registry;
 
         parent::__construct($context, $data);
@@ -57,6 +61,20 @@ class DeliveryTime extends \Magento\Framework\View\Element\Template
     {
         if ($order = $this->getOrder()) {
             return $order->getOscDeliveryTime();
+        }
+
+        return '';
+    }
+
+    /**
+     * Get osc house security code
+     *
+     * @return string
+     */
+    public function getHouseSecurityCode()
+    {
+        if ($order = $this->getOrder()) {
+            return $order->getOscOrderHouseSecurityCode();
         }
 
         return '';

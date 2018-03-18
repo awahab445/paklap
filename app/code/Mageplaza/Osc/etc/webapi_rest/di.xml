@@ -16,7 +16,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 -->
@@ -25,4 +25,11 @@
     <type name="Magento\Quote\Model\ShippingMethodManagement">
         <plugin name="saveAddressWhenEstimate" type="Mageplaza\Osc\Model\Plugin\Checkout\ShippingMethodManagement"/>
     </type>
+    <type name="Magento\Authorization\Model\CompositeUserContext">
+        <plugin name="mz_osc_usercontext" type="Mageplaza\Osc\Model\Plugin\Authorization\UserContext" />
+    </type>
+    <type name="Magento\Paypal\Model\Express">
+        <plugin name="mz_osc_PaypalExpress" type="Mageplaza\Osc\Model\Plugin\Paypal\Model\Express" />
+    </type>
+    <preference for="Magento\Checkout\Api\AgreementsValidatorInterface" type="Mageplaza\Osc\Model\AgreementsValidator" />
 </config>

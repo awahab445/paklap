@@ -15,38 +15,62 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
+
 namespace Mageplaza\Osc\Model;
+
+use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Quote\Api\CartRepositoryInterface;
+use Magento\Quote\Model\QuoteIdMaskFactory;
+use Mageplaza\Osc\Api\CheckoutManagementInterface;
+use Mageplaza\Osc\Api\GuestCheckoutManagementInterface;
 
 /**
  * Class GuestCheckoutManagement
  * @package Mageplaza\Osc\Model
  */
-class GuestCheckoutManagement implements \Mageplaza\Osc\Api\GuestCheckoutManagementInterface
+class GuestCheckoutManagement implements GuestCheckoutManagementInterface
 {
     /**
-     * @var \Magento\Quote\Model\QuoteIdMaskFactory
+     * @var QuoteIdMaskFactory
      */
     protected $quoteIdMaskFactory;
 
     /**
-     * @type \Mageplaza\Osc\Api\CheckoutManagementInterface
+     * @type CheckoutManagementInterface
      */
     protected $checkoutManagement;
 
     /**
-     * @param \Magento\Quote\Model\QuoteIdMaskFactory $quoteIdMaskFactory
-     * @param \Mageplaza\Osc\Api\CheckoutManagementInterface $checkoutManagement
+     * @var CartRepositoryInterface
+     */
+    protected $cartRepository;
+
+    /**
+     * @var AccountManagementInterface
+     */
+    protected $accountManagement;
+
+    /**
+     * GuestCheckoutManagement constructor.
+     * @param QuoteIdMaskFactory $quoteIdMaskFactory
+     * @param CheckoutManagementInterface $checkoutManagement
+     * @param CartRepositoryInterface $cartRepository
+     * @param AccountManagementInterface $accountManagement
      */
     public function __construct(
-        \Magento\Quote\Model\QuoteIdMaskFactory $quoteIdMaskFactory,
-        \Mageplaza\Osc\Api\CheckoutManagementInterface $checkoutManagement
-    ) {
-    
-        $this->quoteIdMaskFactory   = $quoteIdMaskFactory;
+        QuoteIdMaskFactory $quoteIdMaskFactory,
+        CheckoutManagementInterface $checkoutManagement,
+        CartRepositoryInterface $cartRepository,
+        AccountManagementInterface $accountManagement
+    )
+    {
+        $this->quoteIdMaskFactory = $quoteIdMaskFactory;
         $this->checkoutManagement = $checkoutManagement;
+        $this->cartRepository = $cartRepository;
+        $this->accountManagement = $accountManagement;
     }
 
     /**
@@ -81,7 +105,7 @@ class GuestCheckoutManagement implements \Mageplaza\Osc\Api\GuestCheckoutManagem
 
         return $this->checkoutManagement->getPaymentTotalInformation($quoteIdMask->getQuoteId());
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -101,7 +125,8 @@ class GuestCheckoutManagement implements \Mageplaza\Osc\Api\GuestCheckoutManagem
         \Magento\Checkout\Api\Data\ShippingInformationInterface $addressInformation,
         $customerAttributes = [],
         $additionInformation = []
-    ) {
+    )
+    {
         /** @var $quoteIdMask \Magento\Quote\Model\QuoteIdMask */
         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
 
@@ -111,5 +136,35 @@ class GuestCheckoutManagement implements \Mageplaza\Osc\Api\GuestCheckoutManagem
             $customerAttributes,
             $additionInformation
         );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function saveEmailToQuote($cartId, $email)
+    {
+        /** @var $quoteIdMask \Magento\Quote\Model\QuoteIdMask */
+        $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
+        /** @var \Magento\Quote\Model\Quote $quote */
+        $quote = $this->cartRepository->getActive($quoteIdMask->getQuoteId());
+        $quote->setCustomerEmail($email);
+
+        try {
+            $this->cartRepository->save($quote);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isEmailAvailable($cartId, $customerEmail, $websiteId = null)
+    {
+        $this->saveEmailToQuote($cartId, $customerEmail);
+
+        return $this->accountManagement->isEmailAvailable($customerEmail, $websiteId = null);
     }
 }

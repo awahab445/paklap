@@ -15,17 +15,16 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 
 namespace Mageplaza\Osc\Observer;
 
-use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\UrlInterface;
-use Mageplaza\Osc\Helper\Config as HelperConfig;
+use Mageplaza\Osc\Helper\Data as OscHelper;
 
 /**
  * Class RedirectToOneStepCheckout
@@ -33,42 +32,39 @@ use Mageplaza\Osc\Helper\Config as HelperConfig;
  */
 class RedirectToOneStepCheckout implements ObserverInterface
 {
-	/** @var UrlInterface */
-	protected $_url;
+    /**
+     * @var UrlInterface
+     */
+    protected $_url;
 
-	/** @var HelperConfig */
-	protected $_helperConfig;
+    /**
+     * @var OscHelper
+     */
+    protected $_oscHelper;
 
-	/** @var CheckoutSession */
-	protected $checkoutSession;
+    /**
+     * RedirectToOneStepCheckout constructor.
+     * @param UrlInterface $url
+     * @param OscHelper $oscHelper
+     */
+    public function __construct(
+        UrlInterface $url,
+        OscHelper $oscHelper
+    )
+    {
+        $this->_url = $url;
+        $this->_oscHelper = $oscHelper;
+    }
 
-	/**
-	 * RedirectToOneStepCheckout constructor.
-	 * @param \Magento\Framework\UrlInterface $url
-	 * @param \Mageplaza\Osc\Helper\Config $helperConfig
-	 * @param \Magento\Checkout\Model\Session $checkoutSession
-	 */
-	public function __construct(
-		UrlInterface $url,
-		HelperConfig $helperConfig,
-		CheckoutSession $checkoutSession
-	)
-	{
-		$this->_url            = $url;
-		$this->_helperConfig   = $helperConfig;
-		$this->checkoutSession = $checkoutSession;
-	}
-
-	/**
-	 * @param Observer $observer
-	 * @return void
-	 * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-	 */
-	public function execute(Observer $observer)
-	{
-		if ($this->_helperConfig->isRedirectToOneStepCheckout()) {
-			$observer->getEvent()->getResponse()->setRedirect($this->_url->getUrl('onestepcheckout'));
-			$this->checkoutSession->setNoCartRedirect(true);
-		}
-	}
+    /**
+     * @param Observer $observer
+     * @return void
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
+    public function execute(Observer $observer)
+    {
+        if ($this->_oscHelper->isEnabled() && $this->_oscHelper->isRedirectToOneStepCheckout()) {
+            $observer->getRequest()->setParam('return_url', $this->_url->getUrl('onestepcheckout'));
+        }
+    }
 }

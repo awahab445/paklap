@@ -16,7 +16,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 -->
@@ -28,13 +28,16 @@
         <css src="Mageplaza_Core::css/font-awesome.min.css"/>
     </head>
     <body>
+        <referenceBlock name="content">
+            <block class="Mageplaza\Osc\Block\Checkout\CompatibleConfig" name="mageplaza.osc.compatible-config" before="checkout.root"/>
+        </referenceBlock>
         <referenceBlock name="checkout.root">
             <arguments>
                 <argument name="jsLayout" xsi:type="array">
                     <item name="components" xsi:type="array">
                         <item name="checkout" xsi:type="array">
                             <item name="config" xsi:type="array">
-                                <item name="template" xsi:type="helper" helper="Mageplaza\Osc\Helper\Config::getLayoutTemplate" />
+                                <item name="template" xsi:type="helper" helper="Mageplaza\Osc\Helper\Data::getLayoutTemplate" />
                             </item>
                             <item name="children" xsi:type="array">
                                 <item name="authentication" xsi:type="array">
@@ -47,11 +50,13 @@
                                         </item>
                                     </item>
                                     <item name="config" xsi:type="array">
-                                        <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Config::isDisableAuthentication" />
+                                        <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Data::isDisableAuthentication" />
                                     </item>
                                 </item>
-                                <item name="steps" xsi:type=
-                                        "array">
+                                <item name="geoip" xsi:type="array">
+                                    <item name="component" xsi:type="string">Mageplaza_Osc/js/view/geoip</item>
+                                </item>
+                                <item name="steps" xsi:type="array">
                                     <item name="children" xsi:type="array">
                                         <item name="shipping-step" xsi:type="array">
                                             <item name="children" xsi:type="array">
@@ -67,13 +72,13 @@
                                                             <item name="children" xsi:type="array">
                                                                 <item name="additional_block" xsi:type="array">
                                                                     <item name="component" xsi:type="string">Mageplaza_Osc/js/view/delivery-time</item>
-                                                                    <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Config::isDisabledDeliveryTime" />
+                                                                    <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Data::isDisabledDeliveryTime" />
                                                                 </item>
                                                                 <item name="place-order-comment" xsi:type="array">
                                                                     <item name="component" xsi:type="string">Mageplaza_Osc/js/view/review/comment</item>
                                                                     <item name="sortOrder" xsi:type="string">20</item>
                                                                     <item name="config" xsi:type="array">
-                                                                        <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Config::isDisabledComment" />
+                                                                        <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Data::isDisabledComment" />
                                                                     </item>
                                                                 </item>
                                                             </item>
@@ -95,9 +100,6 @@
                                                                 <item name="region_id" xsi:type="array">
                                                                     <item name="component" xsi:type="string">Mageplaza_Osc/js/view/form/element/region</item>
                                                                 </item>
-                                                                <item name="company" xsi:type="array">
-                                                                    <item name="visible" xsi:type="boolean">false</item>
-                                                                </item>
                                                             </item>
                                                         </item>
                                                     </item>
@@ -107,6 +109,7 @@
                                                     <item name="config" xsi:type="array">
                                                         <item name="deps" xsi:type="array">
                                                             <item name="0" xsi:type="string">checkoutProvider</item>
+                                                            <item name="1" xsi:type="string">checkout.steps.shipping-step.shippingAddress</item>
                                                         </item>
                                                     </item>
                                                     <item name="provider" xsi:type="string">checkoutProvider</item>
@@ -175,7 +178,6 @@
                                                                     <item name="validation" xsi:type="array">
                                                                         <item name="min_text_length" xsi:type="number">0</item>
                                                                     </item>
-                                                                    <item name="visible" xsi:type="boolean">false</item>
                                                                 </item>
                                                                 <item name="fax" xsi:type="array">
                                                                     <item name="validation" xsi:type="array">
@@ -207,7 +209,7 @@
                                                             <item name="children" xsi:type="array">
                                                                 <item name="agreements-validator" xsi:type="array">
                                                                     <item name="config" xsi:type="array">
-                                                                        <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Config::disabledPaymentTOC" />
+                                                                        <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Data::disabledPaymentTOC" />
                                                                     </item>
                                                                 </item>
                                                             </item>
@@ -223,7 +225,7 @@
                                                                     <item name="children" xsi:type="array">
                                                                         <item name="agreements" xsi:type="array">
                                                                             <item name="config" xsi:type="array">
-                                                                                <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Config::disabledPaymentTOC" />
+                                                                                <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Data::disabledPaymentTOC" />
                                                                             </item>
                                                                         </item>
                                                                     </item>
@@ -236,7 +238,7 @@
                                                                     <item name="component" xsi:type="string">Mageplaza_Osc/js/view/payment/discount</item>
                                                                     <item name="config" xsi:type="array">
                                                                         <item name="template" xsi:type="string">Mageplaza_Osc/container/payment/discount</item>
-                                                                        <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Config::disabledPaymentCoupon" />
+                                                                        <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Data::disabledPaymentCoupon" />
                                                                     </item>
                                                                 </item>
                                                             </item>
@@ -264,7 +266,7 @@
                                                     <item name="sortOrder" xsi:type="string">10</item>
                                                     <item name="config" xsi:type="array">
                                                         <item name="template" xsi:type="string">Mageplaza_Osc/container/summary/cart-items</item>
-                                                        <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Config::isDisabledReviewCartSection" />
+                                                        <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Data::isDisabledReviewCartSection" />
                                                     </item>
                                                     <item name="children" xsi:type="array">
                                                         <item name="details" xsi:type="array">
@@ -272,7 +274,7 @@
                                                             <item name="children" xsi:type="array">
                                                                 <item name="thumbnail" xsi:type="array">
                                                                     <item name="config" xsi:type="array">
-                                                                        <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Config::isHideProductImage" />
+                                                                        <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Data::isHideProductImage" />
                                                                     </item>
                                                                 </item>
                                                             </item>
@@ -291,7 +293,7 @@
                                                                     <item name="component"  xsi:type="string">Mageplaza_Osc/js/view/summary/gift-wrap</item>
                                                                     <item name="config" xsi:type="array">
                                                                         <item name="title" xsi:type="string" translate="true">Gift Wrap</item>
-                                                                        <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Config::isDisabledGiftWrap" />
+                                                                        <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Data::isDisabledGiftWrap" />
                                                                     </item>
                                                                 </item>
                                                             </item>
@@ -312,7 +314,7 @@
                                                 <item name="discount" xsi:type="array">
                                                     <item name="component" xsi:type="string">Mageplaza_Osc/js/view/payment/discount</item>
                                                     <item name="config" xsi:type="array">
-                                                        <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Config::disabledReviewCoupon" />
+                                                        <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Data::disabledReviewCoupon" />
                                                     </item>
                                                     <item name="children" xsi:type="array">
                                                         <item name="errors" xsi:type="array">
@@ -331,21 +333,21 @@
                                                             <item name="component" xsi:type="string">Mageplaza_Osc/js/view/review/addition/newsletter</item>
                                                             <item name="sortOrder" xsi:type="string">20</item>
                                                             <item name="config" xsi:type="array">
-                                                                <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Config::isDisabledNewsletter" />
+                                                                <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Data::isDisabledNewsletter" />
                                                             </item>
                                                         </item>
                                                         <item name="gift_wrap" xsi:type="array">
                                                             <item name="component" xsi:type="string">Mageplaza_Osc/js/view/review/addition/gift-wrap</item>
                                                             <item name="sortOrder" xsi:type="string">30</item>
                                                             <item name="config" xsi:type="array">
-                                                                <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Config::isDisabledGiftWrap" />
+                                                                <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Data::isDisabledGiftWrap" />
                                                             </item>
                                                         </item>
                                                         <item name="gift-message" xsi:type="array">
                                                             <item name="component" xsi:type="string">Mageplaza_Osc/js/view/review/addition/gift-message</item>
                                                             <item name="sortOrder" xsi:type="string">40</item>
                                                             <item name="config" xsi:type="array">
-                                                                <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Config::isDisabledGiftMessage" />
+                                                                <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Data::isDisabledGiftMessage" />
                                                             </item>
                                                         </item>
                                                     </item>
@@ -363,7 +365,7 @@
                                                         <item name="agreements" xsi:type="array">
                                                             <item name="component" xsi:type="string">Mageplaza_Osc/js/view/review/checkout-agreements</item>
                                                             <item name="config" xsi:type="array">
-                                                                <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Config::disabledReviewTOC" />
+                                                                <item name="componentDisabled" xsi:type="helper" helper="Mageplaza\Osc\Helper\Data::disabledReviewTOC" />
                                                             </item>
                                                             <item name="displayArea" xsi:type="string">checkout-agreements</item>
                                                             <item name="dataScope" xsi:type="string">checkoutAgreements</item>
@@ -383,7 +385,7 @@
         </referenceBlock>
         <attribute name="class" value="checkout_index_index"/>
         <referenceBlock name="head.additional">
-            <block class="Mageplaza\Osc\Block\Design" name="osc.design" as="generator.css" template="design.phtml"/>
+            <block class="Mageplaza\Osc\Block\Design" name="osc.design" as="osc.generator.css" template="design.phtml"/>
         </referenceBlock>
         <referenceBlock name="page.main.title">
             <block class="Mageplaza\Osc\Block\Container" name="page.main.description" template="description.phtml" />

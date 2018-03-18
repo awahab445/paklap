@@ -15,7 +15,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 -->
@@ -31,3 +31,13 @@
         </div>
     </div>
 </div>
+<!-- ko if: canUseHouseSecurityCode() -->
+<div class="house-security-code">
+    <div class="title">
+        <span data-bind="i18n: 'House Security Code'">House Security Code</span>
+    </div>
+    <div class="control">
+        <input type="text" name="house-security-code" id="house-security-code" data-bind="value: houseSecurityCodeValue">
+    </div>
+</div>
+<!-- /ko -->

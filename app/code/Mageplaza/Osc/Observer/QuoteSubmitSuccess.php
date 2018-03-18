@@ -15,12 +15,24 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
+
 namespace Mageplaza\Osc\Observer;
 
+use Magento\Checkout\Model\Session;
+use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Customer\Model\AccountManagement;
+use Magento\Customer\Model\Session as CustomerSession;
+use Magento\Customer\Model\Url;
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Message\ManagerInterface;
+use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
+use Magento\Framework\Stdlib\Cookie\PhpCookieManager;
+use Magento\Newsletter\Model\SubscriberFactory;
 
 /**
  * Class QuoteSubmitSuccess
@@ -67,28 +79,27 @@ class QuoteSubmitSuccess implements ObserverInterface
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      */
     public function __construct(
-        \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Customer\Api\AccountManagementInterface $accountManagement,
-        \Magento\Customer\Model\Url $customerUrl,
-        \Magento\Framework\Message\ManagerInterface $messageManager,
-        \Magento\Customer\Model\Session $customerSession,
-        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-    ) {
-    
-        $this->checkoutSession   = $checkoutSession;
+        Session $checkoutSession,
+        AccountManagementInterface $accountManagement,
+        Url $customerUrl,
+        ManagerInterface $messageManager,
+        CustomerSession $customerSession,
+        SubscriberFactory $subscriberFactory
+    )
+    {
+        $this->checkoutSession = $checkoutSession;
         $this->accountManagement = $accountManagement;
-        $this->_customerUrl      = $customerUrl;
-        $this->messageManager    = $messageManager;
-        $this->_customerSession  = $customerSession;
+        $this->_customerUrl = $customerUrl;
+        $this->messageManager = $messageManager;
+        $this->_customerSession = $customerSession;
         $this->subscriberFactory = $subscriberFactory;
     }
 
     /**
-     * @param \Magento\Framework\Event\Observer $observer
-     * @return void
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @param Observer $observer
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function execute(\Magento\Framework\Event\Observer $observer)
+    public function execute(Observer $observer)
     {
         /** @type \Magento\Quote\Model\Quote $quote $quote */
         $quote = $observer->getEvent()->getQuote();
@@ -97,34 +108,30 @@ class QuoteSubmitSuccess implements ObserverInterface
         if (isset($oscData['register']) && $oscData['register']
             && isset($oscData['password']) && $oscData['password']
         ) {
-            $customer           = $quote->getCustomer();
+            $customer = $quote->getCustomer();
 
             /* Set customer Id for address */
-            if($customer->getId()) {
+            if ($customer->getId()) {
                 $quote->getBillingAddress()->setCustomerId($customer->getId());
-                $quote->getBillingAddress()->setCustomerId($customer->getId());
+                if ($shippingAddress = $quote->getShippingAddress()) {
+                    $shippingAddress->setCustomerId($customer->getId());
+                }
             }
 
-            /* Check customer to be login or not */
-            $confirmationStatus = $this->accountManagement->getConfirmationStatus($customer->getId());
-            if ($confirmationStatus === \Magento\Customer\Model\AccountManagement::ACCOUNT_CONFIRMATION_REQUIRED) {
+            if ($customer->getId() &&
+                $this->accountManagement->getConfirmationStatus($customer->getId())
+                === AccountManagement::ACCOUNT_CONFIRMATION_REQUIRED) {
                 $url = $this->_customerUrl->getEmailConfirmationUrl($customer->getEmail());
                 $this->messageManager->addSuccessMessage(
-				// @codingStandardsIgnoreStart
-					__(
-						'You must confirm your account. Please check your email for the confirmation link or <a href="%1">click here</a> for a new link.',
-						$url
-					)
-				// @codingStandardsIgnoreEnd
+                // @codingStandardsIgnoreStart
+                    __(
+                        'You must confirm your account. Please check your email for the confirmation link or <a href="%1">click here</a> for a new link.',
+                        $url
+                    )
+                // @codingStandardsIgnoreEnd
                 );
             } else {
                 $this->_customerSession->loginById($customer->getId());
-                $this->_customerSession->regenerateId();
-                if ($this->getCookieManager()->getCookie('mage-cache-sessid')) {
-                    $metadata = $this->getCookieMetadataFactory()->createCookieMetadata();
-                    $metadata->setPath('/');
-                    $this->getCookieManager()->deleteCookie('mage-cache-sessid', $metadata);
-                }
             }
         }
 
@@ -132,7 +139,7 @@ class QuoteSubmitSuccess implements ObserverInterface
             if (!$this->_customerSession->isLoggedIn()) {
                 $subscribedEmail = $quote->getBillingAddress()->getEmail();
             } else {
-                $customer        = $this->_customerSession->getCustomer();
+                $customer = $this->_customerSession->getCustomer();
                 $subscribedEmail = $customer->getEmail();
             }
 
@@ -154,9 +161,7 @@ class QuoteSubmitSuccess implements ObserverInterface
      */
     private function getCookieManager()
     {
-        return \Magento\Framework\App\ObjectManager::getInstance()->get(
-            \Magento\Framework\Stdlib\Cookie\PhpCookieManager::class
-        );
+        return ObjectManager::getInstance()->get(PhpCookieManager::class);
     }
 
     /**
@@ -166,8 +171,6 @@ class QuoteSubmitSuccess implements ObserverInterface
      */
     private function getCookieMetadataFactory()
     {
-        return \Magento\Framework\App\ObjectManager::getInstance()->get(
-            \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory::class
-        );
+        return ObjectManager::getInstance()->get(CookieMetadataFactory::class);
     }
 }

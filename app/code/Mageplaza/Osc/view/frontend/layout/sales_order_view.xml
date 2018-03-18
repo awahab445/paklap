@@ -16,22 +16,17 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="content">
-            <block class="Magento\Framework\View\Element\Template" name="osc.additional.content"
-                   template="Mageplaza_Osc::order/additional.phtml" after="-">
-                <block class="Mageplaza\Osc\Block\Order\View\Comment" name="comment"
-                       template="order/view/comment.phtml"/>
-                <block class="Mageplaza\Osc\Block\Order\View\DeliveryTime" name="delivery_time"
-                       template="order/view/delivery-time.phtml"/>
-                <block class="Mageplaza\Osc\Block\Order\View\Survey" name="survey"
-                       template="order/view/survey.phtml"/>
+            <block class="Magento\Framework\View\Element\Template" name="osc.additional.content" template="Mageplaza_Osc::order/additional.phtml" after="-">
+                <block class="Mageplaza\Osc\Block\Order\View\Comment" name="comment" template="order/view/comment.phtml"/>
+                <block class="Mageplaza\Osc\Block\Order\View\DeliveryTime" name="delivery_time" template="order/view/delivery-time.phtml"/>
+                <block class="Mageplaza\Osc\Block\Order\View\Survey" name="survey" template="order/view/survey.phtml"/>
             </block>
         </referenceContainer>
         <referenceBlock name="order_totals">

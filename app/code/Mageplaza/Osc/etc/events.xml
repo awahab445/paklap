@@ -16,7 +16,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 -->
@@ -24,8 +24,8 @@
     <event name="sales_model_service_quote_submit_before">
         <observer name="convertOscDataToOrder" instance="Mageplaza\Osc\Observer\QuoteSubmitBefore" />
     </event>
-    <event name="checkout_submit_before">
-        <observer name="convertOscDataToOrder" instance="Mageplaza\Osc\Observer\CheckoutSubmitBefore" />
+    <event name="controller_action_predispatch_paypal_express_placeOrder">
+        <observer name="osc_predispatch_paypal_express_placeOrder" instance="Mageplaza\Osc\Observer\PaypalExpressPlaceOrder" />
     </event>
     <event name="sales_model_service_quote_submit_success">
         <observer name="convertOscDataToOrder" instance="Mageplaza\Osc\Observer\QuoteSubmitSuccess" />

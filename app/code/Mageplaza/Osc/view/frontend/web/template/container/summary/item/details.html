@@ -15,7 +15,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 -->
@@ -58,6 +58,77 @@
         </div>
         <!-- /ko -->
     </div>
+
+    <!-- ko if: isItemAvailable($parent.item_id) -->
+    <div class="gift-message-item-content">
+        <div class="gift-message-item" data-bind="attr: { id: 'item' +$parent.item_id, title: giftMessageItemsTitleHover}">
+            <i class="fa fa-gift fa-2x" aria-hidden="true"></i>
+        </div>
+        <div style="display: none" data-bind="attr: { id: 'item' + $parent.item_id,title: $parent.name},afterRender: function(element){setModalElement(element, $parent.item_id)}">
+            <div class="gift-options-content">
+                <div class="fieldset">
+                    <div class="field field-from col-mp mp-6">
+                        <!-- ko ifnot: window.checkoutConfig.oscConfig.isUsedMaterialDesign -->
+                        <label for="gift-message-whole-from" class="label">
+                            <span data-bind="i18n: 'From:'"></span>
+                        </label>
+                        <!-- /ko -->
+                        <div class="control input-field">
+                            <input type="text" id="gift-message-whole-from" class="input-text" required>
+                            <!-- ko if: window.checkoutConfig.oscConfig.isUsedMaterialDesign -->
+                            <label for="gift-message-whole-from" class="label">
+                                <span data-bind="i18n: 'From:'"></span>
+                            </label>
+                            <!-- /ko -->
+                        </div>
+                    </div>
+                    <div class="field field-to col-mp mp-6">
+                        <!-- ko ifnot: window.checkoutConfig.oscConfig.isUsedMaterialDesign -->
+                        <label for="gift-message-whole-to" class="label">
+                            <span data-bind="i18n: 'To:'"></span>
+                        </label>
+                        <!-- /ko -->
+                        <div class="control input-field">
+                            <input type="text" id="gift-message-whole-to" class="input-text" required>
+                            <!-- ko if: window.checkoutConfig.oscConfig.isUsedMaterialDesign -->
+                            <label for="gift-message-whole-to" class="label">
+                                <span data-bind="i18n: 'To:'"></span>
+                            </label>
+                            <!-- /ko -->
+                        </div>
+                    </div>
+                    <div class="field text col-mp mp-12">
+                        <!-- ko ifnot: window.checkoutConfig.oscConfig.isUsedMaterialDesign -->
+                        <label for="gift-message-whole-message" class="label">
+                            <span data-bind="i18n: 'Message:'"></span>
+                        </label>
+                        <div class="control">
+                            <textarea id="gift-message-whole-message" class="input-text" rows="5" cols="10"></textarea>
+                        </div>
+                        <!-- /ko -->
+                        <!-- ko if: window.checkoutConfig.oscConfig.isUsedMaterialDesign -->
+                        <div class="control">
+                            <textarea id="gift-message-whole-message" class="input-text" rows="3" cols="10" data-bind="attr:{placeholder: $t('Message')}"></textarea>
+                        </div>
+                        <!-- /ko -->
+                    </div>
+                </div>
+            </div>
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <button type="submit" name="update" class="action update"  data-bind="click: updateGiftMessageItem.bind($data,$parent.item_id)">
+                        <span data-bind="i18n: 'Update'"></span>
+                    </button>
+                </div>
+                <div class="primary">
+                    <button type="submit" name="delete" class="action delete" data-bind="click: deleteGiftMessageItem.bind($data,$parent.item_id)">
+                        <span data-bind="i18n: 'Delete'"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /ko -->
 </td>
 <td class="a-center details-qty">
     <div class="qty-wrapper">

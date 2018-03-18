@@ -15,11 +15,14 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
+
 namespace Mageplaza\Osc\Observer;
 
+use Magento\Checkout\Model\Session;
+use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 
 /**
@@ -37,11 +40,8 @@ class QuoteSubmitBefore implements ObserverInterface
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @codeCoverageIgnore
      */
-    public function __construct(
-        \Magento\Checkout\Model\Session $checkoutSession
-    )
+    public function __construct(Session $checkoutSession)
     {
-
         $this->checkoutSession = $checkoutSession;
     }
 
@@ -50,7 +50,7 @@ class QuoteSubmitBefore implements ObserverInterface
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function execute(\Magento\Framework\Event\Observer $observer)
+    public function execute(Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
         $quote = $observer->getEvent()->getQuote();
@@ -62,6 +62,10 @@ class QuoteSubmitBefore implements ObserverInterface
 
         if (isset($oscData['deliveryTime'])) {
             $order->setData('osc_delivery_time', $oscData['deliveryTime']);
+        }
+
+        if (isset($oscData['houseSecurityCode'])) {
+            $order->setData('osc_order_house_security_code', $oscData['houseSecurityCode']);
         }
 
         $address = $quote->getShippingAddress();

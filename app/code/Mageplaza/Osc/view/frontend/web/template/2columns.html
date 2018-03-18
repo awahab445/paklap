@@ -15,7 +15,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 -->
@@ -36,13 +36,28 @@
     <div class="opc one-step-checkout-container" id="checkoutSteps">
         <div class="col-mp mp-6 mp-sm-5 mp-xs-12">
             <div class="row-mp">
+                <!-- ko ifnot: window.checkoutConfig.oscConfig.isUsedMaterialDesign -->
                 <div class="col-mp mp-12" data-bind="scope: 'checkout.steps.shipping-step.shippingAddress'">
                     <!-- ko template: getAddressTemplate() --><!-- /ko -->
                 </div>
                 <div class="col-mp mp-12" data-bind="scope: 'checkout.steps.shipping-step.billingAddress'">
                     <!-- ko template: getAddressTemplate() --><!-- /ko -->
                 </div>
-                <div class="col-mp mp-12" data-bind="scope: 'checkout.steps.shipping-step'">
+                <!-- /ko -->
+                <!-- ko if: window.checkoutConfig.oscConfig.isUsedMaterialDesign -->
+                <div class=" col-mp mp-12 hoverable">
+                    <div class="row-mp">
+                        <div class="col-mp mp-12" data-bind="scope: 'checkout.steps.shipping-step.shippingAddress'">
+                            <!-- ko template: getAddressTemplate() --><!-- /ko -->
+                        </div>
+                        <div class="col-mp mp-12" data-bind="scope: 'checkout.steps.shipping-step.billingAddress'">
+                            <!-- ko template: getAddressTemplate() --><!-- /ko -->
+                        </div>
+                    </div>
+                </div>
+                <!-- /ko -->
+
+                <div class="col-mp mp-12 hoverable" data-bind="scope: 'checkout.steps.shipping-step'">
                     <!-- ko template: getTemplate() --><!-- /ko -->
                 </div>
                 <div class="mp-clear"></div>
@@ -50,7 +65,7 @@
         </div>
         <div class="col-mp mp-6 mp-sm-7 mp-xs-12">
             <div class="row-mp">
-                <div class="col-mp mp-12" data-bind="scope: 'checkout.steps.billing-step'">
+                <div class="col-mp mp-12 hoverable" data-bind="scope: 'checkout.steps.billing-step'">
                     <!-- ko template: getTemplate() --><!-- /ko -->
                 </div>
                 <div class="col-mp mp-12" data-bind="scope: 'checkout.sidebar'">

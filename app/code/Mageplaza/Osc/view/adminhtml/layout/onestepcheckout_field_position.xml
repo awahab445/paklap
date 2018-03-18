@@ -16,7 +16,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 -->
@@ -27,7 +27,7 @@
     </head>
     <body>
         <referenceContainer name="content">
-            <block class="\Mageplaza\Osc\Block\Adminhtml\Field\Position" name="onestepcheckout.adminhtml.field.position" template="field/position.phtml" />
+            <block class="Mageplaza\Osc\Block\Adminhtml\Field\Position" name="onestepcheckout.adminhtml.field.position" template="field/position.phtml" />
         </referenceContainer>
     </body>
 </page>

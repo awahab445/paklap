@@ -15,7 +15,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 -->
@@ -43,26 +43,36 @@
                   data-bind="submit:login">
                 <div class="fieldset" data-bind="attr: {'data-hasrequired': $t('* Required Fields')}">
                     <div class="field field-email required">
+                        <!-- ko ifnot: window.checkoutConfig.oscConfig.isUsedMaterialDesign -->
                         <label class="label" for="login-email"><span data-bind="i18n: 'Email Address'"></span></label>
-                        <div class="control">
+                        <!-- /ko -->
+                        <div class="control input-field">
                             <input type="email"
                                    class="input-text"
                                    id="login-email"
                                    name="username"
-                                   data-bind="attr: {autocomplete: autocomplete}"
-                                   data-validate="{required:true, 'validate-email':true}" />
+                                   data-bind="attr: {autocomplete: autocomplete}, event: { blur: hasValue}"
+                                   data-validate="{required:true, 'validate-email':true}" required />
+                            <!-- ko if: window.checkoutConfig.oscConfig.isUsedMaterialDesign -->
+                            <label class="label" for="login-email"><span data-bind="i18n: 'Email Address'"></span><i class="required-entry">*</i></label>
+                            <!-- /ko -->
                         </div>
                     </div>
-                    <div class="field field-password required">
-                        <label for="login-password" class="label"><span data-bind="i18n: 'Password'"></span></label>
-                        <div class="control">
+                    <div class="field  field-password required">
+                        <!-- ko ifnot: window.checkoutConfig.oscConfig.isUsedMaterialDesign -->
+                            <label for="login-password" class="label"><span data-bind="i18n: 'Password'"></span></label>
+                        <!-- /ko -->
+                        <div class="control input-field">
                             <input type="password"
                                    class="input-text"
                                    id="login-password"
                                    name="password"
-                                   data-bind="attr: {autocomplete: autocomplete}"
+                                   data-bind="attr: {autocomplete: autocomplete}, event: { blur: hasValue}"
                                    data-validate="{required:true}"
-                                   autocomplete="off"/>
+                                   autocomplete="off" required/>
+                            <!-- ko if: window.checkoutConfig.oscConfig.isUsedMaterialDesign -->
+                            <label for="login-password" class="label"><span data-bind="i18n: 'Password'"></span><i class="required-entry">*</i></label>
+                            <!-- /ko -->
                         </div>
                     </div>
                     <!-- ko foreach: getRegion('additional-login-form-fields') -->
@@ -72,7 +82,7 @@
                 <div class="actions-toolbar">
                     <input name="context" type="hidden" value="checkout" />
                     <div class="primary">
-                        <button type="submit" class="action action-login secondary" name="send" id="send2">
+                        <button type="submit" class="action action-login secondary" name="send" id="osc-send2">
                             <span data-bind="i18n: 'Sign In'"></span>
                         </button>
                     </div>

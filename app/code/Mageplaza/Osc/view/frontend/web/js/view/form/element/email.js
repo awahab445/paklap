@@ -14,7 +14,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 
@@ -25,16 +25,18 @@ define([
     'Magento_Customer/js/model/customer',
     'Mageplaza_Osc/js/model/osc-data',
     'Magento_Checkout/js/model/payment/additional-validators',
-    'Magento_Customer/js/action/check-email-availability',
+    'Mageplaza_Osc/js/action/check-email-availability',
+    'mage/url',
     'rjsResolver',
     'mage/validation'
-], function ($, ko, Component, customer, oscData, additionalValidators, checkEmailAvailability, resolver) {
+], function ($, ko, Component, customer, oscData, additionalValidators, checkEmailAvailability, urlBuilder, resolver) {
     'use strict';
 
     var cacheKey = 'form_register_chechbox',
         allowGuestCheckout = window.checkoutConfig.oscConfig.allowGuestCheckout,
         passwordMinLength = window.checkoutConfig.oscConfig.register.dataPasswordMinLength,
-        passwordMinCharacter = window.checkoutConfig.oscConfig.register.dataPasswordMinCharacterSets;
+        passwordMinCharacter = window.checkoutConfig.oscConfig.register.dataPasswordMinCharacterSets,
+        customerEmailElement = '.form-login #customer-email';
 
     if (!customer.isLoggedIn() && !allowGuestCheckout) {
         oscData.setData(cacheKey, true);
@@ -49,6 +51,7 @@ define([
             }
         },
         checkDelay: 0,
+        savingEmailRequest: null,
         dataPasswordMinLength: passwordMinLength,
         dataPasswordMinCharacterSets: passwordMinCharacter,
 
@@ -76,8 +79,29 @@ define([
             return this;
         },
 
+        /**
+         * Check email existing.
+         */
+        checkEmailAvailability: function () {
+            var self = this;
+            this.validateRequest();
+            this.isLoading(true);
+            this.checkRequest = checkEmailAvailability(this.email());
+            this.checkRequest.done(function (isEmailAvailable) {
+                self.isPasswordVisible(!isEmailAvailable);
+            }).fail(function () {
+                self.isPasswordVisible(false);
+            }).always(function () {
+                self.isLoading(false);
+            });
+        },
+
         triggerLogin: function () {
-            $('.osc-authentication-toggle').trigger('click');
+            if ($('.osc-authentication-wrapper a.action-auth-toggle').hasClass('osc-authentication-toggle')) {
+                $('.osc-authentication-toggle').trigger('click');
+            } else {
+                window.location.href = urlBuilder.build("customer/account/login");
+            }
         },
 
 
@@ -99,6 +123,7 @@ define([
         },
 
         validate: function (type) {
+
             if (customer.isLoggedIn() || !this.isRegisterVisible() || this.isPasswordVisible()) {
                 oscData.setData('register', false);
                 return true;
@@ -126,6 +151,13 @@ define([
 
             return result;
 
+        },
+
+        /** Move label element when input has value */
+        hasValue: function () {
+            if (window.checkoutConfig.oscConfig.isUsedMaterialDesign) {
+                $(customerEmailElement).val() ? $(customerEmailElement).addClass('active') : $(customerEmailElement).removeClass('active');
+            }
         }
     });
 });

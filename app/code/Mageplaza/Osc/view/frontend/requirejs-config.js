@@ -14,7 +14,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 
@@ -45,6 +45,23 @@ if (window.location.href.indexOf('onestepcheckout') !== -1) {
             'Mageplaza_Osc/js/model/osc-loader': {
                 'Magento_Checkout/js/model/full-screen-loader': 'Magento_Checkout/js/model/full-screen-loader'
             }
+        },
+        config: {
+            mixins: {
+                'Magento_Braintree/js/view/payment/method-renderer/paypal': {
+                    'Mageplaza_Osc/js/view/payment/method-renderer/braintree-paypal-mixins': true
+                },
+                'Magento_Checkout/js/action/place-order': {
+                    'Mageplaza_Osc/js/action/place-order-mixins': true
+                },
+                'Magento_Paypal/js/action/set-payment-method': {
+                    'Mageplaza_Osc/js/model/paypal/set-payment-method-mixin': true
+                }
+            }
         }
     };
+
+    if(window.location.href.indexOf('#') !== -1){
+        window.history.pushState("", document.title, window.location.pathname);
+    }
 }

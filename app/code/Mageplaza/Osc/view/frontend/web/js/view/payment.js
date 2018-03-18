@@ -14,7 +14,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 
@@ -26,17 +26,16 @@ define(
         'Magento_Checkout/js/model/step-navigator',
         'Magento_Checkout/js/model/payment/additional-validators',
         'Mageplaza_Osc/js/model/checkout-data-resolver',
-        'Mageplaza_Osc/js/model/payment-service'
+        'Mageplaza_Osc/js/model/payment-service',
+        'mage/translate'
     ],
-    function (
-        ko,
-        Component,
-        quote,
-        stepNavigator,
-        additionalValidators,
-        oscDataResolver,
-        oscPaymentService
-    ) {
+    function (ko,
+              Component,
+              quote,
+              stepNavigator,
+              additionalValidators,
+              oscDataResolver,
+              oscPaymentService) {
         'use strict';
 
         oscDataResolver.resolveDefaultPaymentMethod();
@@ -66,7 +65,7 @@ define(
 
             validate: function () {
                 if (!quote.paymentMethod()) {
-                    this.errorValidationMessage('Please specify a payment method.');
+                    this.errorValidationMessage($.mage.__('Please specify a payment method.'));
 
                     return false;
                 }

@@ -15,9 +15,10 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
+
 namespace Mageplaza\Osc\Controller\Add;
 
 /**
@@ -27,12 +28,13 @@ namespace Mageplaza\Osc\Controller\Add;
 class Index extends \Magento\Checkout\Controller\Cart\Add
 {
     /**
-     * @return $this|\Magento\Framework\View\Result\Page
+     * @return $this|\Magento\Framework\Controller\Result\Redirect
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function execute()
     {
-//        $this->_objectManager->create('Magento\Catalog\Model\ResourceModel\Product\Collection');
-        $productId = 8;
+        $productId = $this->getRequest()->getParam('id') ? $this->getRequest()->getParam('id') : 11;
         $storeId = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getId();
         $product = $this->productRepository->getById($productId, false, $storeId);
 

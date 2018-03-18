@@ -15,26 +15,28 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (https://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (https://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 ?>
-<?php if (!$block->isEnableSurvey() && !empty($block->getSurveyQuestion()) && count($block->getAllSurveyAnswer()) > 0): ?>
+<?php if ($block->isEnableSurvey() && !empty($block->getSurveyQuestion()) && count($block->getAllSurveyAnswer()) > 0): ?>
     <div id="survey">
         <div id="survey-message"></div>
         <div class="survey-content">
-           <strong>Question: </strong><span> <?php echo $block->getSurveyQuestion(); ?></span>
+           <strong><?php /* @escapeNotVerified */ echo __('Question') ?>: </strong><span> <?php echo $block->getSurveyQuestion(); ?></span>
            <div class="list-answer">
                <?php
                     foreach ($block->getAllSurveyAnswer() as $option){
                         echo '<div class="survey-answer"> <div class="checkbox-survey"><input type="checkbox" value="'.$option['id'].'"></div><div class="option-value"><span>'.$option['value'].'</span></div></div>';
                     }
-                    if($block->isAllowCustomerAddOtherOption()) echo '<div class="option-survey-new"> <input type="text" id="new-answer" placeholder="Add an option..." maxlength="50"> </div>';
-    ?>
+                    if($block->isAllowCustomerAddOtherOption()){
+                        echo '<div class="option-survey-new"> <input type="text" id="new-answer" placeholder="Add an option..." maxlength="50"> </div>';
+                    }
+                ?>
            </div>
            <div class="actions-toolbar" id="submit-answers">
               <div class="primary">
-                 <a class="action primary continue" href="javascript:void(0)"><span>Submit Answers</span></a>
+                 <a class="action primary continue" href="javascript:void(0)"><span><?php /* @escapeNotVerified */ echo __('Submit Answers') ?></span></a>
               </div>
            </div>
         </div>

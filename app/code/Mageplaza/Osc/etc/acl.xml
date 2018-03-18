@@ -16,7 +16,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 -->
@@ -24,16 +24,13 @@
     <acl>
         <resources>
             <resource id="Magento_Backend::admin">
-                <resource id="Mageplaza_Core::menu">
-                    <resource id="Mageplaza_Osc::osc" title="One Step Checkout" sortOrder="71">
-                        <resource id="Mageplaza_Osc::field_management" title="Field Management" sortOrder="10"/>
-                        <resource id="Mageplaza_Osc::configuration" title="Configuration" sortOrder="1000"/>
-                    </resource>
-                </resource>
                 <resource id="Magento_Backend::stores">
+                    <resource id="Mageplaza_Osc::osc" title="One Step Checkout" sortOrder="45">
+                        <resource id="Mageplaza_Osc::field_management" title="Manage Fields" sortOrder="10"/>
+                    </resource>
                     <resource id="Magento_Backend::stores_settings">
                         <resource id="Magento_Config::config">
-                            <resource id="Mageplaza_Osc::config_osc" title="One Step Checkout"/>
+                            <resource id="Mageplaza_Osc::configuration" title="Mageplaza One Step Checkout"/>
                         </resource>
                     </resource>
                 </resource>

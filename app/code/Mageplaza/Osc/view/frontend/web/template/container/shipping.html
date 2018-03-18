@@ -15,7 +15,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 -->
@@ -28,6 +28,12 @@
     <div class="checkout-shipping-method">
         <div class="step-title" data-role="title">
             <i class="fa fa-truck"></i>
+            <!-- ko if: window.checkoutConfig.oscConfig.isUsedMaterialDesign -->
+                <span class="fa-stack fa-2x">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <strong class="fa-stack-1x fa-stack-text fa-inverse">2</strong>
+                </span>
+            <!-- /ko -->
             <span data-bind="i18n: 'Shipping Methods'"></span>
         </div>
         <!-- ko foreach: getRegion('before-shipping-method-form') -->
@@ -66,6 +72,7 @@
                                                     'id': 's_method_' + method.method_code,
                                                     'aria-labelledby': 'label_method_' + method.method_code + '_' + method.carrier_code + ' ' + 'label_carrier_' + method.method_code + '_' + method.carrier_code
                                                  }" />
+                                <label></label>
                                 <!-- /ko -->
                                 <!--ko ifnot: ($parent.rates().length == 1)-->
                                 <input type="radio"
@@ -77,6 +84,7 @@
                                                     'aria-labelledby': 'label_method_' + method.method_code + '_' + method.carrier_code + ' ' + 'label_carrier_' + method.method_code + '_' + method.carrier_code
                                                 }"
                                        class="radio"/>
+                                <label></label>
                                 <!--/ko-->
                                 <!-- /ko -->
                             </td>
@@ -84,6 +92,12 @@
                                 <!-- ko foreach: $parent.getRegion('price') -->
                                 <!-- ko template: getTemplate() --><!-- /ko -->
                                 <!-- /ko -->
+
+                                <!-- TIG PostNL modification start -->
+                                <!-- ko if: $parent.isEnableModulePostNL && $parent.isPostNLDeliveryMethod(method) && $parent.PostNLFee() -->
+                                + <span data-bind="text: $parent.formatPrice($parent.PostNLFee())"></span>
+                                <!-- /ko -->
+                                <!-- TIG PostNL modification end -->
                             </td>
 
                             <td class="col col-method"
@@ -106,6 +120,18 @@
                         </tr>
                         <!-- /ko -->
 
+                        <!-- TIG PostNL modification start -->
+                        <!-- ko if: $parent.isEnableModulePostNL && $parent.canUsePostnlDeliveryOptions(method) -->
+                        <tr>
+                            <td colspan="10" class="postnl-deliveryoptions">
+                                <!-- ko foreach: $parent.getRegion('postnl-deliveryoptions') -->
+                                <!-- ko template: getTemplate() --><!-- /ko -->
+                                <!-- /ko -->
+                            </td>
+                        </tr>
+                        <!-- /ko -->
+                        <!-- TIG PostNL modification end -->
+
                         <!-- /ko -->
                         </tbody>
                     </table>
@@ -118,7 +144,7 @@
                 </div>
                 <!-- ko if: errorValidationMessage().length > 0 -->
                 <div class="message notice">
-                    <span><!-- ko text: errorValidationMessage()--><!-- /ko --></span>
+                    <span><!-- ko i18n: errorValidationMessage()--><!-- /ko --></span>
                 </div>
                 <!-- /ko -->
             </form>

@@ -13,16 +13,16 @@
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
  *
- * @category   Mageplaza
- * @package    Mageplaza_Osc
- * @version    3.0.0
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @category    Mageplaza
+ * @package     Mageplaza_Osc
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
+
 namespace Mageplaza\Osc\Block;
 
 use Magento\Framework\View\Element\Template;
-use Mageplaza\Osc\Helper\Data as HelperData;
+use Mageplaza\Osc\Helper\Data as OscHelper;
 
 /**
  * Class Container
@@ -30,21 +30,24 @@ use Mageplaza\Osc\Helper\Data as HelperData;
  */
 class Container extends Template
 {
-    protected $_helperData;
-    protected $_helperConfig;
+    /**
+     * @var OscHelper
+     */
+    protected $_oscHelper;
 
     /**
-     * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Mageplaza\Osc\Helper\Data $helperData
+     * Container constructor.
+     * @param Template\Context $context
+     * @param OscHelper $oscHelper
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
-        HelperData $helperData,
+        OscHelper $oscHelper,
         array $data = []
-    ) {
-    
-        $this->_helperData = $helperData;
+    )
+    {
+        $this->_oscHelper = $oscHelper;
 
         parent::__construct($context, $data);
     }
@@ -54,6 +57,6 @@ class Container extends Template
      */
     public function getCheckoutDescription()
     {
-        return $this->_helperData->getConfig()->getGeneralConfig('description');
+        return $this->_oscHelper->getConfigGeneral('description');
     }
 }

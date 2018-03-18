@@ -15,9 +15,10 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
+
 namespace Mageplaza\Osc\Api\Data;
 
 /**
@@ -27,8 +28,8 @@ namespace Mageplaza\Osc\Api\Data;
 interface OscDetailsInterface
 {
     /**
-	 * Constants defined for keys of array, makes typos less likely
-	 */
+     * Constants defined for keys of array, makes typos less likely
+     */
     const SHIPPING_METHODS = 'shipping_methods';
 
     const PAYMENT_METHODS = 'payment_methods';

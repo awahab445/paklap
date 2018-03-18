@@ -15,7 +15,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 
@@ -30,44 +30,44 @@ use Magento\Sales\Model\Order\Invoice\Total\AbstractTotal;
  */
 class GiftWrap extends AbstractTotal
 {
-	/**
-	 * @param \Magento\Sales\Model\Order\Invoice $invoice
-	 * @return $this
-	 */
-	public function collect(Invoice $invoice)
-	{
-		$order = $invoice->getOrder();
-		if ($order->getOscGiftWrapAmount() < 0.0001) {
-			return $this;
-		}
-		$totalGiftWrapAmount     = 0;
-		$totalBaseGiftWrapAmount = 0;
+    /**
+     * @param \Magento\Sales\Model\Order\Invoice $invoice
+     * @return $this
+     */
+    public function collect(Invoice $invoice)
+    {
+        $order = $invoice->getOrder();
+        if ($order->getOscGiftWrapAmount() < 0.0001) {
+            return $this;
+        }
 
-		if ($order->getGiftWrapType() == \Mageplaza\Osc\Model\System\Config\Source\Giftwrap::PER_ITEM) {
-			foreach ($invoice->getAllItems() as $item) {
-				$orderItem = $item->getOrderItem();
-				if ($orderItem->isDummy() || ($orderItem->getOscGiftWrapAmount() < 0.001)) {
-					continue;
-				}
-				$rate = $item->getQty() / $orderItem->getQtyOrdered();
+        $totalGiftWrapAmount = 0;
+        $totalBaseGiftWrapAmount = 0;
 
-				$totalBaseGiftWrapAmount += $orderItem->getBaseOscGiftWrapAmount() * $rate;
-				$totalGiftWrapAmount += $orderItem->getOscGiftWrapAmount() * $rate;
-			}
-		} else {
-			$invoiceCollections = $order->getInvoiceCollection();
-			if ($invoiceCollections->getSize() == 0) {
-				$totalGiftWrapAmount     = $order->getOscGiftWrapAmount();
-				$totalBaseGiftWrapAmount = $order->getBaseOscGiftWrapAmount();
-			}
-		}
-		$invoice->setBaseOscGiftWrapAmount($totalBaseGiftWrapAmount);
-		$invoice->setOscGiftWrapAmount($totalGiftWrapAmount);
+        if ($order->getGiftWrapType() == \Mageplaza\Osc\Model\System\Config\Source\Giftwrap::PER_ITEM) {
+            foreach ($invoice->getAllItems() as $item) {
+                $orderItem = $item->getOrderItem();
+                if ($orderItem->isDummy() || ($orderItem->getOscGiftWrapAmount() < 0.001)) {
+                    continue;
+                }
+                $rate = $item->getQty() / $orderItem->getQtyOrdered();
 
-		$invoice->setGrandTotal($invoice->getGrandTotal() + $totalGiftWrapAmount);
-		$invoice->setBaseGrandTotal($invoice->getBaseGrandTotal() + $totalBaseGiftWrapAmount);
+                $totalBaseGiftWrapAmount += $orderItem->getBaseOscGiftWrapAmount() * $rate;
+                $totalGiftWrapAmount += $orderItem->getOscGiftWrapAmount() * $rate;
+            }
+        } else {
+            $invoiceCollections = $order->getInvoiceCollection();
+            if ($invoiceCollections->getSize() == 0) {
+                $totalGiftWrapAmount = $order->getOscGiftWrapAmount();
+                $totalBaseGiftWrapAmount = $order->getBaseOscGiftWrapAmount();
+            }
+        }
+        $invoice->setBaseOscGiftWrapAmount($totalBaseGiftWrapAmount);
+        $invoice->setOscGiftWrapAmount($totalGiftWrapAmount);
 
-		return $this;
-	}
+        $invoice->setGrandTotal($invoice->getGrandTotal() + $totalGiftWrapAmount);
+        $invoice->setBaseGrandTotal($invoice->getBaseGrandTotal() + $totalBaseGiftWrapAmount);
 
+        return $this;
+    }
 }

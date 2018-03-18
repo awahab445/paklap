@@ -15,53 +15,58 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
+
 namespace Mageplaza\Osc\Controller\Adminhtml\Field;
+
+use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\View\Result\PageFactory;
 
 /**
  * Class Position
  * @package Mageplaza\Osc\Controller\Adminhtml\Field
  */
-class Position extends \Magento\Backend\App\Action
+class Position extends Action
 {
-	/**
-	 * @var \Magento\Framework\View\Result\PageFactory
-	 */
-	protected $resultPageFactory;
+    /**
+     * @var PageFactory
+     */
+    protected $resultPageFactory;
 
-	/**
-	 * @param \Magento\Backend\App\Action\Context $context
-	 * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
-	 */
-	public function __construct(
-		\Magento\Backend\App\Action\Context $context,
-		\Magento\Framework\View\Result\PageFactory $resultPageFactory
-	)
-	{
-		parent::__construct($context);
-		$this->resultPageFactory = $resultPageFactory;
-	}
+    /**
+     * @param Context $context
+     * @param PageFactory $resultPageFactory
+     */
+    public function __construct(
+        Context $context,
+        PageFactory $resultPageFactory
+    )
+    {
+        parent::__construct($context);
+        $this->resultPageFactory = $resultPageFactory;
+    }
 
-	/**
-	 * @return \Magento\Framework\View\Result\Page
-	 */
-	public function execute()
-	{
-		$resultPage = $this->resultPageFactory->create();
-		/**
-		 * Set active menu item
-		 */
-		$resultPage->setActiveMenu('Mageplaza_Osc::field_management');
-		$resultPage->getConfig()->getTitle()->prepend(__('Field Management'));
+    /**
+     * @return \Magento\Framework\View\Result\Page
+     */
+    public function execute()
+    {
+        $resultPage = $this->resultPageFactory->create();
+        /**
+         * Set active menu item
+         */
+        $resultPage->setActiveMenu('Mageplaza_Osc::field_management');
+        $resultPage->getConfig()->getTitle()->prepend(__('Manage Fields'));
 
-		/**
-		 * Add breadcrumb item
-		 */
-		$resultPage->addBreadcrumb(__('One Step Checkout'), __('One Step Checkout'));
-		$resultPage->addBreadcrumb(__('Field Management'), __('Field Management'));
+        /**
+         * Add breadcrumb item
+         */
+        $resultPage->addBreadcrumb(__('One Step Checkout'), __('One Step Checkout'));
+        $resultPage->addBreadcrumb(__('Manage Fields'), __('Manage Fields'));
 
-		return $resultPage;
-	}
+        return $resultPage;
+    }
 }

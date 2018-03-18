@@ -15,15 +15,16 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
+
 namespace Mageplaza\Osc\Api;
 
 /**
  * Interface for update item information
  * @api
- */ 
+ */
 interface GuestCheckoutManagementInterface
 {
     /**
@@ -52,7 +53,7 @@ interface GuestCheckoutManagementInterface
      * @param bool $isUseGiftWrap
      * @return \Mageplaza\Osc\Api\Data\OscDetailsInterface
      */
-    public function updateGiftWrap($cartId,$isUseGiftWrap);
+    public function updateGiftWrap($cartId, $isUseGiftWrap);
 
     /**
      * @param string $cartId
@@ -67,4 +68,22 @@ interface GuestCheckoutManagementInterface
         $customerAttributes = [],
         $additionInformation = []
     );
+
+    /**
+     * @param string $cartId
+     * @param string $email
+     * @return bool
+     */
+    public function saveEmailToQuote($cartId, $email);
+
+    /**
+     * Check if given email is associated with a customer account in given website.
+     *
+     * @param string $cartId
+     * @param string $customerEmail
+     * @param int $websiteId If not set, will use the current websiteId
+     * @return bool
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function isEmailAvailable($cartId, $customerEmail, $websiteId = null);
 }

@@ -15,7 +15,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 
@@ -30,57 +30,58 @@ use Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal;
  */
 class GiftWrap extends AbstractTotal
 {
-	/**
-	 * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
-	 * @return $this|void
-	 */
-	public function collect(Creditmemo $creditmemo)
-	{
-		$order = $creditmemo->getOrder();
-		if ($order->getOscGiftWrapAmount() < 0.0001) {
-			return $this;
-		}
-		$totalGiftWrapAmount     = 0;
-		$totalBaseGiftWrapAmount = 0;
-		if ($order->getGiftWrapType() == \Mageplaza\Osc\Model\System\Config\Source\Giftwrap::PER_ITEM) {
-			foreach ($creditmemo->getAllItems() as $item) {
-				$orderItem = $item->getOrderItem();
-				if ($orderItem->isDummy() || ($orderItem->getOscGiftWrapAmount() < 0.001)) {
-					continue;
-				}
-				$rate = $item->getQty() / $orderItem->getQtyOrdered();
+    /**
+     * @param Creditmemo $creditmemo
+     * @return $this
+     */
+    public function collect(Creditmemo $creditmemo)
+    {
+        $order = $creditmemo->getOrder();
+        if ($order->getOscGiftWrapAmount() < 0.0001) {
+            return $this;
+        }
 
-				$totalBaseGiftWrapAmount += $orderItem->getBaseOscGiftWrapAmount() * $rate;
-				$totalGiftWrapAmount += $orderItem->getOscGiftWrapAmount() * $rate;
-			}
-		} else if ($this->isLast($creditmemo)) {
-			$totalGiftWrapAmount     = $order->getOscGiftWrapAmount();
-			$totalBaseGiftWrapAmount = $order->getBaseOscGiftWrapAmount();
-		}
+        $totalGiftWrapAmount = 0;
+        $totalBaseGiftWrapAmount = 0;
+        if ($order->getGiftWrapType() == \Mageplaza\Osc\Model\System\Config\Source\Giftwrap::PER_ITEM) {
+            foreach ($creditmemo->getAllItems() as $item) {
+                $orderItem = $item->getOrderItem();
+                if ($orderItem->isDummy() || ($orderItem->getOscGiftWrapAmount() < 0.001)) {
+                    continue;
+                }
+                $rate = $item->getQty() / $orderItem->getQtyOrdered();
 
-		$creditmemo->setBaseOscGiftWrapAmount($totalBaseGiftWrapAmount);
-		$creditmemo->setOscGiftWrapAmount($totalGiftWrapAmount);
+                $totalBaseGiftWrapAmount += $orderItem->getBaseOscGiftWrapAmount() * $rate;
+                $totalGiftWrapAmount += $orderItem->getOscGiftWrapAmount() * $rate;
+            }
+        } else if ($this->isLast($creditmemo)) {
+            $totalGiftWrapAmount = $order->getOscGiftWrapAmount();
+            $totalBaseGiftWrapAmount = $order->getBaseOscGiftWrapAmount();
+        }
 
-		$creditmemo->setGrandTotal($creditmemo->getGrandTotal() + $totalGiftWrapAmount);
-		$creditmemo->setBaseGrandTotal($creditmemo->getBaseGrandTotal() + $totalBaseGiftWrapAmount);
+        $creditmemo->setBaseOscGiftWrapAmount($totalBaseGiftWrapAmount);
+        $creditmemo->setOscGiftWrapAmount($totalGiftWrapAmount);
 
-		return $this;
-	}
+        $creditmemo->setGrandTotal($creditmemo->getGrandTotal() + $totalGiftWrapAmount);
+        $creditmemo->setBaseGrandTotal($creditmemo->getBaseGrandTotal() + $totalBaseGiftWrapAmount);
 
-	/**
-	 * check credit memo is last or not
-	 *
-	 * @param Creditmemo $creditmemo
-	 * @return boolean
-	 */
-	public function isLast($creditmemo)
-	{
-		foreach ($creditmemo->getAllItems() as $item) {
-			if (!$item->isLast()) {
-				return false;
-			}
-		}
+        return $this;
+    }
 
-		return true;
-	}
+    /**
+     * check credit memo is last or not
+     *
+     * @param Creditmemo $creditmemo
+     * @return boolean
+     */
+    public function isLast($creditmemo)
+    {
+        foreach ($creditmemo->getAllItems() as $item) {
+            if (!$item->isLast()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

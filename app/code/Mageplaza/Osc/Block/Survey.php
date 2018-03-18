@@ -13,17 +13,17 @@
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
  *
- * @category   Mageplaza
- * @package    Mageplaza_Osc
- * @version    3.0.0
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @category    Mageplaza
+ * @package     Mageplaza_Osc
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
+
 namespace Mageplaza\Osc\Block;
 
-use Magento\Framework\View\Element\Template;
-use Mageplaza\Osc\Helper\Data as HelperData;
 use Magento\Checkout\Model\Session;
+use Magento\Framework\View\Element\Template;
+use Mageplaza\Osc\Helper\Data as OscHelper;
 
 /**
  * Class Survey
@@ -31,75 +31,81 @@ use Magento\Checkout\Model\Session;
  */
 class Survey extends Template
 {
-	/**
-	 * @var \Mageplaza\Osc\Helper\Data
-	 */
-	protected $_helperData;
+    /**
+     * @var OscHelper
+     */
+    protected $_oscHelper;
 
-	/**
-	 * @var $_helperConfig
-	 */
-	protected $_helperConfig;
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
 
-	/**
-	 * @var \Magento\Checkout\Model\Session
-	 */
-	protected $_checkoutSession;
+    /**
+     * Survey constructor.
+     * @param Template\Context $context
+     * @param OscHelper $oscHelper
+     * @param Session $checkoutSession
+     * @param array $data
+     */
+    public function __construct(
+        Template\Context $context,
+        OscHelper $oscHelper,
+        Session $checkoutSession,
+        array $data = []
+    )
+    {
+        $this->_oscHelper = $oscHelper;
+        $this->_checkoutSession = $checkoutSession;
 
-	/**
-	 * @param \Magento\Framework\View\Element\Template\Context $context
-	 * @param \Mageplaza\Osc\Helper\Data $helperData
-	 * @param array $data
-	 */
-	public function __construct(
-		Template\Context $context,
-		HelperData $helperData,
-		Session $checkoutSession,
-		array $data = []
-	) {
+        parent::__construct($context, $data);
+        $this->getLastOrderId();
+    }
 
-		$this->_helperData 		= $helperData;
-		$this->_checkoutSession = $checkoutSession;
+    /**
+     * @return bool
+     */
+    public function isEnableSurvey()
+    {
+        return $this->_oscHelper->isEnabled() && !$this->_oscHelper->isDisableSurvey();
+    }
 
-		parent::__construct($context, $data);
-		$this->getLastOrderId();
-	}
+    /**
+     * get Last order id
+     */
+    public function getLastOrderId()
+    {
+        $orderId = $this->_checkoutSession->getLastRealOrder()->getEntityId();
+        $this->_checkoutSession->setOscData(array('survey' => array('orderId' => $orderId)));
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function isEnableSurvey()
-	{
-		return $this->_helperData->getConfig()->isDisableSurvey();
-	}
+    /**
+     * @return mixed
+     */
+    public function getSurveyQuestion()
+    {
+        return $this->_oscHelper->getSurveyQuestion();
+    }
 
-	public function getLastOrderId(){
-		$orderId = $this->_checkoutSession->getLastRealOrder()->getEntityId();
-		$this->_checkoutSession->setOscData(array('survey'=>array('orderId' => $orderId )));
-	}
+    /**
+     * @return array
+     * @throws \Zend_Serializer_Exception
+     */
+    public function getAllSurveyAnswer()
+    {
+        $answers = [];
+        foreach ($this->_oscHelper->getSurveyAnswers() as $key => $item) {
+            $answers[] = ['id' => $key, 'value' => $item['value']];
+        }
 
-	/**
-	 * @return mixed
-	 */
-	public function getSurveyQuestion(){
-		return $this->_helperData->getConfig()->getSurveyQuestion();
-	}
+        return $answers;
+    }
 
-	/**
-	 * @return array
-	 */
-	public function getAllSurveyAnswer(){
-		$answers=[];
-		foreach ($this->_helperData->getConfig()->getSurveyAnswers() as $key=>$item){
-			$answers[]=['id'=>$key,'value'=>$item['value']];
-		}
-		return $answers;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function isAllowCustomerAddOtherOption(){
-		return $this->_helperData->getConfig()->isAllowCustomerAddOtherOption();
-	}
+    /**
+     * @return mixed
+     */
+    public function isAllowCustomerAddOtherOption()
+    {
+        return $this->_oscHelper->isAllowCustomerAddOtherOption();
+    }
 }

@@ -14,12 +14,12 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 
-define(['ko', 'uiElement', 'underscore'],
-    function (ko, uiElement, _) {
+define(['jquery', 'ko', 'uiElement', 'underscore', 'mage/translate'],
+    function ($, ko, uiElement, _, $t) {
         'use strict';
 
         var provider = uiElement();
@@ -68,6 +68,18 @@ define(['ko', 'uiElement', 'underscore'],
                  */
                 isGiftMessageAvailable: function () {
                     return this.getConfigValue('isOrderLevelGiftOptionsEnabled');
+                },
+                /**
+                 * show message below order summary
+                 * @param type
+                 * @param message
+                 */
+                showMessage: function (type, message) {
+                    var classElement = 'message ' + type;
+                    $('#opc-sidebar .block.items-in-cart').before('<div class=" ' + classElement + '"> <span>' + $t(message) + '</span></div>');
+                    setTimeout(function () {
+                        $('#opc-sidebar .opc-block-summary .message.' + type).remove();
+                    }, 3000);
                 }
             };
             model.initialize();

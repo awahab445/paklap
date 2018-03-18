@@ -14,7 +14,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 
@@ -37,7 +37,10 @@ define(
         'Magento_Checkout/js/model/shipping-service',
         'Mageplaza_Osc/js/model/checkout-data-resolver',
         'Mageplaza_Osc/js/model/address/auto-complete',
-        'rjsResolver'
+        'Mageplaza_Osc/js/model/compatible/amazon-pay',
+        'Magento_Customer/js/model/address-list',
+        'rjsResolver',
+        'mage/translate'
     ],
     function ($,
               _,
@@ -56,6 +59,8 @@ define(
               shippingService,
               oscDataResolver,
               addressAutoComplete,
+              amazonPay,
+              addressList,
               resolver) {
         'use strict';
 
@@ -69,8 +74,18 @@ define(
                 template: 'Mageplaza_Osc/container/shipping'
             },
             currentMethod: null,
+            isAmazonAccountLoggedIn: amazonPay.isAmazonAccountLoggedIn,
             initialize: function () {
                 this._super();
+
+                /**
+                 * Solve problem when customer has more than 1 addresses but no one is default shipping address
+                 * Shipping address will not auto select the first one, so billing address throw error when trying to
+                 * calculate isAddressSameAsShipping variable
+                 */
+                if (!quote.shippingAddress() && addressList().length >= 1) {
+                    selectShippingAddress(addressList()[0]);
+                }
 
                 stepNavigator.steps.removeAll();
 
@@ -107,6 +122,10 @@ define(
             },
 
             validate: function () {
+                if (this.isAmazonAccountLoggedIn()) {
+                    return true;
+                }
+
                 if (quote.isVirtual()) {
                     return true;
                 }
@@ -117,7 +136,7 @@ define(
                     emailValidationResult = customer.isLoggedIn();
 
                 if (!quote.shippingMethod()) {
-                    this.errorValidationMessage('Please specify a shipping method.');
+                    this.errorValidationMessage($.mage.__('Please specify a shipping method.'));
 
                     shippingMethodValidationResult = false;
                 }

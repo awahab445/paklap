@@ -14,7 +14,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 
@@ -36,6 +36,8 @@ define(
         'use strict';
 
         var checkoutConfig = window.checkoutConfig;
+        var emailElement = ('.popup-authentication #login-email'),
+            passwordElement = ('.popup-authentication #login-password');
 
         return Component.extend({
             registerUrl: checkoutConfig.registerUrl,
@@ -71,9 +73,9 @@ define(
                     'trigger': '.osc-authentication-toggle',
                     'buttons': []
                 };
-                if(window.checkoutConfig.oscConfig.isDisplaySocialLogin && $("#social-login-popup").length>0){
-                    this.modalWindow    =   $("#social-login-popup");
-                    options.modalClass  =   'osc-social-login-popup';
+                if (window.checkoutConfig.oscConfig.isDisplaySocialLogin && $("#social-login-popup").length > 0) {
+                    this.modalWindow = $("#social-login-popup");
+                    options.modalClass = 'osc-social-login-popup';
                 }
                 modal(options, $(this.modalWindow));
             },
@@ -106,6 +108,14 @@ define(
                                 messageContainer.addSuccessMessage({'message': $t('Login successfully. Please wait...')});
                             }
                         });
+                }
+            },
+
+            /** Move label element when input has value */
+            hasValue: function () {
+                if (window.checkoutConfig.oscConfig.isUsedMaterialDesign) {
+                    $(emailElement).val() ? $(emailElement).addClass('active') : $(emailElement).removeClass('active');
+                    $(passwordElement).val() ? $(passwordElement).addClass('active') : $(passwordElement).removeClass('active');
                 }
             }
         });

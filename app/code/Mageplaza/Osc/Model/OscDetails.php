@@ -15,16 +15,19 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
+
 namespace Mageplaza\Osc\Model;
+
+use Magento\Framework\Model\AbstractExtensibleModel;
+use Mageplaza\Osc\Api\Data\OscDetailsInterface;
 
 /**
  * @codeCoverageIgnoreStart
  */
-class OscDetails extends \Magento\Framework\Model\AbstractExtensibleModel implements
-    \Mageplaza\Osc\Api\Data\OscDetailsInterface
+class OscDetails extends AbstractExtensibleModel implements OscDetailsInterface
 {
     /**
      * @{inheritdoc}

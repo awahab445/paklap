@@ -13,9 +13,12 @@
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
  *
- * @copyright   Copyright (c) 2016 Mageplaza (http://mageplaza.com/)
- * @license     http://mageplaza.com/license-agreement.html
+ * @category    Mageplaza
+ * @package     Mageplaza_Osc
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
  */
+
 namespace Mageplaza\Osc\Model\System\Config\Source;
 
 use Magento\Framework\Model\AbstractModel;
@@ -26,19 +29,19 @@ use Magento\Framework\Model\AbstractModel;
  */
 class ComponentPosition extends AbstractModel
 {
-	const NOT_SHOW = 0;
-	const SHOW_IN_PAYMENT = 1;
-	const SHOW_IN_REVIEW = 2;
+    const NOT_SHOW = 0;
+    const SHOW_IN_PAYMENT = 1;
+    const SHOW_IN_REVIEW = 2;
 
-	/**
-	 * @return array
-	 */
-	public function toOptionArray()
-	{
-		return [
-			self::NOT_SHOW        => __('No'),
-			self::SHOW_IN_PAYMENT => __('In Payment Area'),
-			self::SHOW_IN_REVIEW  => __('In Review Area')
-		];
-	}
+    /**
+     * @return array
+     */
+    public function toOptionArray()
+    {
+        return [
+            self::NOT_SHOW => __('No'),
+            self::SHOW_IN_PAYMENT => __('In Payment Area'),
+            self::SHOW_IN_REVIEW => __('In Review Area')
+        ];
+    }
 }

@@ -15,18 +15,22 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 ?>
-
-<?php if ($deliveryTimeHtml = $block->getDeliveryTime()): ?>
+<?php if (($deliveryTimeHtml = $block->getDeliveryTime())||($block->getHouseSecurityCode())): ?>
     <div class="box box-order-delivery-time">
         <strong class="box-title">
-            <span><?php /* @escapeNotVerified */ echo __('Delivery Time') ?></span>
+            <span class="title"><?php if($block->getDeliveryTime() && $block->getHouseSecurityCode()){/* @escapeNotVerified */ echo __('Delivery Time & House Security Code');}elseif($block->getHouseSecurityCode()){/* @escapeNotVerified */ echo __('House Security Code');}elseif($block->getDeliveryTime()){/* @escapeNotVerified */ echo __('Delivery Time');} ?></span>
         </strong>
         <div class="box-delivery-time">
-            <?php echo $deliveryTimeHtml;?>
+            <?php if($deliveryTimeHtml): ?>
+                <br><strong><?php /* @escapeNotVerified */ echo __('Delivery Time') ?>: </strong><span><?php echo $deliveryTimeHtml ?></span>
+			<?php endif; ?>
+			<?php if($houseSecurityCodeHtml = $block->getHouseSecurityCode()): ?>
+                <br><strong><?php /* @escapeNotVerified */ echo __('House Security Code') ?>: </strong><span><?php echo $houseSecurityCodeHtml ?></span>
+			<?php endif; ?>
         </div>
     </div>
 <?php endif; ?>

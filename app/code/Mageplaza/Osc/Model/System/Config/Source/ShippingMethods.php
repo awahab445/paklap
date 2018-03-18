@@ -15,12 +15,12 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
+
 namespace Mageplaza\Osc\Model\System\Config\Source;
 
-use Magento\Framework\App\ObjectManager;
 use Magento\Framework\App\Config\ScopeConfigInterface as StoreConfig;
 use Magento\Shipping\Model\Config as CarrierConfig;
 
@@ -49,8 +49,9 @@ class ShippingMethods
         StoreConfig $scopeConfig,
         CarrierConfig $carrierConfig,
         array $data = []
-    ) {
-        $this->_scopeConfig   = $scopeConfig;
+    )
+    {
+        $this->_scopeConfig = $scopeConfig;
         $this->_carrierConfig = $carrierConfig;
     }
 
@@ -65,7 +66,7 @@ class ShippingMethods
                 'value' => '',
             ],
         ];
-        $carrierMethodsList         = $this->_carrierConfig->getActiveCarriers();
+        $carrierMethodsList = $this->_carrierConfig->getActiveCarriers();
         ksort($carrierMethodsList);
         foreach ($carrierMethodsList as $carrierMethodCode => $carrierModel) {
             foreach ($carrierModel->getAllowedMethods() as $shippingMethodCode => $shippingMethodTitle) {

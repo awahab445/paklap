@@ -16,7 +16,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 -->
@@ -24,7 +24,7 @@
     <default>
         <osc>
             <general>
-                <is_enabled>1</is_enabled>
+                <enabled>1</enabled>
                 <title>One Step Checkout</title>
                 <description>Please enter your details below to complete your purchase.</description>
                 <allow_guest_checkout>1</allow_guest_checkout>
@@ -48,8 +48,15 @@
                 <page_design>flat</page_design>
                 <heading_background>#1979c3</heading_background>
                 <heading_text>#FFFFFF</heading_text>
+                <radio_button_style>with_gap</radio_button_style>
+                <checkbox_button_style>default</checkbox_button_style>
+                <material_color>#1979c3</material_color>
                 <place_order_button>#1979c3</place_order_button>
             </design_configuration>
+            <geoip_configuration>
+                <is_enable_geoip>0</is_enable_geoip>
+                <download_path><![CDATA[http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz]]></download_path>
+            </geoip_configuration>
             <field>
                 <position>[{"code":"firstname","colspan":6},{"code":"lastname","colspan":6},{"code":"street","colspan":12},{"code":"country_id","colspan":6},{"code":"city","colspan":6},{"code":"postcode","colspan":6},{"code":"region_id","colspan":6},{"code":"company","colspan":6},{"code":"telephone","colspan":6}]</position>
             </field>

@@ -14,7 +14,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 
@@ -25,11 +25,11 @@ define([
     'uiLayout'
 ], function (_, Component, utils, layout) {
     'use strict';
-
+    var template = window.checkoutConfig.oscConfig.isUsedMaterialDesign ? 'Mageplaza_Osc/container/form/field' : '${ $.$data.template }';
     var inputNode = {
         parent: '${ $.$data.parentName }',
         component: 'Magento_Ui/js/form/element/abstract',
-        template: '${ $.$data.template }',
+        template: template,
         elementTmpl: 'Mageplaza_Osc/container/form/element/input',
         provider: '${ $.$data.provider }',
         name: '${ $.$data.index }_input',

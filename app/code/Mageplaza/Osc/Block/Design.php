@@ -15,48 +15,68 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
+
 namespace Mageplaza\Osc\Block;
 
-use Mageplaza\Osc\Helper\Config;
+use Magento\Checkout\Model\Session as CheckoutSession;
+use Magento\Framework\View\Design\Theme\ThemeProviderInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
+use Mageplaza\Osc\Helper\Data as OscHelper;
 
 /**
- * Class Css
- * @package Mageplaza\Osc\Block\Generator
+ * Class Design
+ * @package Mageplaza\Osc\Block
  */
 class Design extends Template
 {
     /**
-     * @var Config
+     * @var OscHelper
      */
-    protected $_helperConfig;
+    protected $_oscHelper;
 
     /**
-     * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Mageplaza\Osc\Helper\Config $helperConfig
+     * @var ThemeProviderInterface
+     */
+    protected $_themeProviderInterface;
+
+    /**
+     * @type \Magento\Checkout\Model\Session
+     */
+    private $checkoutSession;
+
+    /**
+     * Design constructor.
+     * @param Context $context
+     * @param OscHelper $oscHelper
+     * @param ThemeProviderInterface $themeProviderInterface
+     * @param CheckoutSession $checkoutSession
      * @param array $data
      */
     public function __construct(
         Context $context,
-        Config $helperConfig,
+        OscHelper $oscHelper,
+        ThemeProviderInterface $themeProviderInterface,
+        CheckoutSession $checkoutSession,
         array $data = []
-    ) {
-    
+    )
+    {
         parent::__construct($context, $data);
 
-        $this->_helperConfig = $helperConfig;
+        $this->_oscHelper = $oscHelper;
+        $this->_themeProviderInterface = $themeProviderInterface;
+        $this->checkoutSession = $checkoutSession;
     }
 
     /**
-     * @return \Mageplaza\Osc\Helper\Config
+     * @return OscHelper
      */
     public function getHelperConfig()
     {
-        return $this->_helperConfig;
+        return $this->_oscHelper;
     }
 
     /**
@@ -81,5 +101,21 @@ class Design extends Template
     public function getDesignConfiguration()
     {
         return $this->getHelperConfig()->getDesignConfig();
+    }
+
+    /**
+     * @return string
+     */
+    public function getCurrentTheme()
+    {
+        return $this->_themeProviderInterface->getThemeById($this->getHelperConfig()->getCurrentThemeId())->getCode();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isVirtual()
+    {
+        return $this->checkoutSession->getQuote()->isVirtual();
     }
 }

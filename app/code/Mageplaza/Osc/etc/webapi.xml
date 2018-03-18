@@ -16,12 +16,11 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 -->
-<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
     <route url="/V1/guest-carts/:cartId/update-item" method="POST">
         <service class="Mageplaza\Osc\Api\GuestCheckoutManagementInterface" method="updateItemQty"/>
         <resources>
@@ -96,5 +95,17 @@
         <data>
             <parameter name="cartId" force="true">%cart_id%</parameter>
         </data>
+    </route>
+    <route url="/V1/guest-carts/:cartId/save-email-to-quote" method="POST">
+        <service class="Mageplaza\Osc\Api\GuestCheckoutManagementInterface" method="saveEmailToQuote"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/guest-carts/:cartId/isEmailAvailable" method="POST">
+        <service class="Mageplaza\Osc\Api\GuestCheckoutManagementInterface" method="isEmailAvailable"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
     </route>
 </routes>

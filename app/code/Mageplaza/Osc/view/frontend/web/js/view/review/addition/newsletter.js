@@ -14,7 +14,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 
@@ -38,7 +38,7 @@ define(
                     .observe({
                         isRegisterNewsletter: (typeof oscData.getData(cacheKey) === 'undefined') ? window.checkoutConfig.oscConfig.newsletterDefault : oscData.getData(cacheKey)
                     });
-
+                oscData.setData(cacheKey, this.isRegisterNewsletter());
                 this.isRegisterNewsletter.subscribe(function (newValue) {
                     oscData.setData(cacheKey, newValue);
                 });

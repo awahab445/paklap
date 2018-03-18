@@ -15,12 +15,15 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
+
 namespace Mageplaza\Osc\Observer;
 
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Event\ObserverInterface;
+use Mageplaza\Osc\Helper\Data;
 
 /**
  * Class CheckoutSubmitBefore
@@ -28,28 +31,35 @@ use Magento\Framework\Event\ObserverInterface;
  */
 class IsAllowedGuestCheckoutObserver extends \Magento\Downloadable\Observer\IsAllowedGuestCheckoutObserver implements ObserverInterface
 {
-	protected $_helper;
+    /**
+     * @var Data
+     */
+    protected $_helper;
 
-	public function __construct(
-		\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-		\Mageplaza\Osc\Helper\Data $helper
-	)
-	{
-		$this->_helper = $helper;
+    /**
+     * IsAllowedGuestCheckoutObserver constructor.
+     * @param ScopeConfigInterface $scopeConfig
+     * @param Data $helper
+     */
+    public function __construct(
+        ScopeConfigInterface $scopeConfig,
+        Data $helper
+    )
+    {
+        $this->_helper = $helper;
 
-		parent::__construct($scopeConfig);
-	}
+        parent::__construct($scopeConfig);
+    }
 
-	/**
-	 * @param \Magento\Framework\Event\Observer $observer
-	 * @return $this
-	 */
-	public function execute(\Magento\Framework\Event\Observer $observer)
-	{
-		if ($this->_helper->isEnabled()) {
-			return $this;
-		}
+    /**
+     * @inheritdoc
+     */
+    public function execute(\Magento\Framework\Event\Observer $observer)
+    {
+        if ($this->_helper->isEnabled()) {
+            return $this;
+        }
 
-		return parent::execute($observer);
-	}
+        return parent::execute($observer);
+    }
 }

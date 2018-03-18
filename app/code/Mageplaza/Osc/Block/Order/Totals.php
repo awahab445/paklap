@@ -15,7 +15,7 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Osc
- * @copyright   Copyright (c) 2016 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) 2017-2018 Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 
@@ -30,20 +30,20 @@ use Magento\Framework\View\Element\Template;
  */
 class Totals extends Template
 {
-	/**
-	 * Init Totals
-	 */
-	public function initTotals()
-	{
-		$totalsBlock = $this->getParentBlock();
-		$source      = $totalsBlock->getSource();
-		if ($source && !empty($source->getOscGiftWrapAmount())) {
-			$totalsBlock->addTotal(new DataObject([
-				'code'  => 'gift_wrap',
-				'field' => 'osc_gift_wrap_amount',
-				'label' => __('Gift Wrap'),
-				'value' => $source->getOscGiftWrapAmount(),
-			]));
-		}
-	}
+    /**
+     * Init Totals
+     */
+    public function initTotals()
+    {
+        $totalsBlock = $this->getParentBlock();
+        $source = $totalsBlock->getSource();
+        if ($source && !empty($source->getOscGiftWrapAmount())) {
+            $totalsBlock->addTotal(new DataObject([
+                'code' => 'gift_wrap',
+                'field' => 'osc_gift_wrap_amount',
+                'label' => __('Gift Wrap'),
+                'value' => $source->getOscGiftWrapAmount(),
+            ]));
+        }
+    }
 }
