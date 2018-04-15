@@ -65,5 +65,21 @@
 	<move element="currency" destination="header.panel.left" after="-" />-->
 	<move element="logo" destination="logo.left" />
 	<move element="minicart" destination="header.wrapper.right" />
+	<referenceBlock name="checkout.cart.shipping">
+		<arguments>
+			<argument name="jsLayout" xsi:type="array">
+				<item name="components" xsi:type="array">
+					<item name="block-summary" xsi:type="array">
+
+						<!-- My custom part: -->
+						<item name="config" xsi:type="array">
+							<item name="componentDisabled" xsi:type="boolean">true</item>
+						</item>
+
+					</item>
+				</item>
+			</argument>
+		</arguments>
+	</referenceBlock>
 	</body>
 </page>
