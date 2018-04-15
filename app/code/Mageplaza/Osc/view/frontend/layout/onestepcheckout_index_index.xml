@@ -390,5 +390,6 @@
         <referenceBlock name="page.main.title">
             <block class="Mageplaza\Osc\Block\Container" name="page.main.description" template="description.phtml" />
         </referenceBlock>
+        <referenceBlock name="arpatech.newsticker" remove="true"/>
     </body>
 </page>
