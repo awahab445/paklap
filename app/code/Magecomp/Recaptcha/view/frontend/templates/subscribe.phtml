@@ -1,0 +1,108 @@
+<?php 
+$om = \Magento\Framework\App\ObjectManager::getInstance();
+$recaptcha = $om->get('Magecomp\Recaptcha\Block\Recaptcha');
+$getLocale = $om->get('Magento\Framework\Locale\Resolver');
+
+$getNewsLetterConfig = $recaptcha->getNewsletter();
+$getLocale = strstr($getLocale->getLocale(), '_', true);
+$routeName       = $this->getRequest()->getRouteName();?>
+
+<div class="block newsletter hello">
+  <div class="title"><strong>Newsletter</strong></div>
+  <div class="content">
+    <form class="form subscribe"
+            novalidate
+            action="<?php /* @escapeNotVerified */echo $block->getFormActionUrl(); ?>"
+            method="post"
+            data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+            id="newsletter-validate-detail">
+      <div class="field newsletter">
+        <label class="label" for="newsletter"><span>
+          <?php /* @escapeNotVerified */ echo __('Sign Up for Our Newsletter:') ?>
+          </span></label>
+        <div class="control">
+          <input name="email" type="email" id="newsletter"
+                                placeholder="<?php /* @escapeNotVerified */ echo __('Enter your email address') ?>"
+                                data-validate="{required:true, 'validate-email':true}"/>
+        </div>
+      </div>
+      <?php if($getNewsLetterConfig): ?>
+      <div class="captcha" style="margin:10px 0px">
+		<div class="g-recaptcha-response-news" id="g-recaptcha-response-news" data-theme="<?php echo $recaptcha->getThemeOption(); ?>" data-sitekey="<?php echo $recaptcha->getSiteKey(); ?>"> </div>
+        <div id="g_recaptcha-error-news" style="display: none; color: #e02b27; font-size: 1.2rem;" generated="true"> <?php echo __('This is a required field.') ?> </div>
+      </div>
+      <?php endif; ?>
+      <div class="actions">
+        <button class="action subscribe primary" title="<?php /* @escapeNotVerified */ echo __('Subscribe') ?>" type="submit"> <span>
+        <?php /* @escapeNotVerified */ echo __('Subscribe') ?>
+        </span> </button>
+      </div>
+    </form>
+  </div>
+</div>
+<script src='https://www.google.com/recaptcha/api.js?onload=reCaptchaCallback&render=explicit&hl=<?php echo $getLocale?>'></script> 
+<script type="text/javascript">
+    var canSubmit = false;
+    function reCaptchaVerifyNews(response) {
+        if (response) {
+            canSubmit = true;
+        }
+	}
+    var recaptcha1;
+    var recaptcha2;
+	function reCaptchaCallback () {
+		<?php if($getNewsLetterConfig): ?>
+			grecaptcha.render('g-recaptcha-response-news', {
+				'sitekey': '<?php echo $recaptcha->getSiteKey(); ?>',
+				'callback': reCaptchaVerifyNews,
+				'theme': '<?php echo $recaptcha->getThemeOption(); ?>'
+			});
+		<?php endif; ?>
+
+        <?php if($routeName=="contact"): ?>
+            grecaptcha.render('g-recaptcha-contact', {
+                'sitekey': '<?php echo $recaptcha->getSiteKey(); ?>',
+                'callback': reCaptchaVerify,
+                'theme': '<?php echo $recaptcha->getThemeOption(); ?>'
+            });
+        <?php // endif; ?>
+        <?php elseif($routeName=="catalog"): ?>
+            grecaptcha.render('g-recaptcha-review', {
+                'sitekey': '<?php echo $recaptcha->getSiteKey(); ?>',
+                'callback': reCaptchaVerify,
+                'theme': '<?php echo $recaptcha->getThemeOption(); ?>'
+            });
+        <?php // endif; ?>
+
+        <?php elseif($this->getRequest()->getActionName()=="forgotpassword"): ?>
+            grecaptcha.render('g-recaptcha-forgotpassword', {
+                'sitekey': '<?php echo $recaptcha->getSiteKey(); ?>',
+                'callback': reCaptchaVerify,
+                'theme': '<?php echo $recaptcha->getThemeOption(); ?>'
+            });
+        <?php //endif; ?>
+
+        <?php elseif($routeName=="customer"): ?>
+            grecaptcha.render('g-recaptcha-customer_create', {
+                'sitekey': '<?php echo $recaptcha->getSiteKey(); ?>',
+                'callback': reCaptchaVerify,
+                'theme': '<?php echo $recaptcha->getThemeOption(); ?>'
+            });
+        <?php else:?>
+            grecaptcha.render('g-recaptcha-chk_register', {
+                'sitekey': '<?php echo $recaptcha->getSiteKey(); ?>',
+                'callback': reCaptchaVerify,
+                'theme': '<?php echo $recaptcha->getThemeOption(); ?>'
+            });
+        <?php endif; ?>
+
+    }
+	<?php if($getNewsLetterConfig): ?>
+		document.getElementById('newsletter-validate-detail').addEventListener('submit',function(e){
+			if (!canSubmit) {
+				jQuery('#g_recaptcha-error-news').show();
+				e.preventDefault();
+			}
+		});
+	<?php endif; ?>
+</script>

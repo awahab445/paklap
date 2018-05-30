@@ -1,0 +1,49 @@
+<?php 
+$om = \Magento\Framework\App\ObjectManager::getInstance();
+$recaptcha = $om->get('Magecomp\Recaptcha\Block\Recaptcha');
+?>
+<div id="registration" data-bind="scope:'registration'" class="custom">
+    <br />
+    <div class="captcha" style="margin:10px 0px">
+        <div class="g-recaptcha-response" id="g-recaptcha-chk_register" data-theme="<?php echo $recaptcha->getThemeOption(); ?>" data-sitekey="<?php echo $recaptcha->getSiteKey(); ?>"> </div>
+        <div id="g_recaptcha-error" style="display: none; color: #e02b27; font-size: 1.2rem;" generated="true">
+            <?php echo __('This is a required field.') ?>
+        </div>
+	</div>
+    <!-- ko template: getTemplate() --><!-- /ko -->
+    <script type="text/x-magento-init">
+        {
+            "#registration": {
+                "Magento_Ui/js/core/app": {
+                   "components": {
+                        "registration": {
+                            "component": "Magecomp_Recaptcha/js/view/registration",
+                            "config": {
+                                "registrationUrl": "<?php /* @escapeNotVerified */ echo $block->getCreateAccountUrl(); ?>",
+                                "email": "<?php /* @escapeNotVerified */ echo $block->getEmailAddress(); ?>"
+                            },
+                            "children": {
+                                "errors": {
+                                    "component": "Magento_Ui/js/view/messages",
+                                    "sortOrder": 0,
+                                    "displayArea": "messages",
+                                    "config": {
+                                        "autoHideTimeOut": -1
+                                     }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script type="text/javascript">
+		var regSubmit = false;
+		function reCaptchaVerify(response) {
+			if (response) {
+				regSubmit = true;
+			}
+		}
+	</script>
+</div>
